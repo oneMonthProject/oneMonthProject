@@ -1,14 +1,8 @@
 package com.example.demo.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.*;
-
-import com.example.demo.constant.AlertType;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table(name = "board")
@@ -39,19 +33,17 @@ public class Board extends BaseTimeEntity {
 
     private String contact;
 
-    @OneToMany(mappedBy = "position", orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<BoardPosition> position = new ArrayList<>();
-
     @Builder
     private Board(
+            Long id,
             String title,
             String content,
             Project project,
             int pageView,
             boolean completeStatus,
             User user,
-            String contact
-    ) {
+            String contact) {
+        this.id = id;
         this.title = title;
         this.content = content;
         this.project = project;

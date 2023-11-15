@@ -3,7 +3,6 @@ package com.example.demo.model;
 import com.example.demo.constant.ParticipationStatus;
 import java.time.LocalDateTime;
 import javax.persistence.*;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,7 +38,13 @@ public class UserProjectHistory extends BaseTimeEntity {
     private ParticipationStatus status;
 
     @Builder
-    public UserProjectHistory(Long id, User user, Project project, LocalDateTime startDate, LocalDateTime endDate, ParticipationStatus status) {
+    public UserProjectHistory(
+            Long id,
+            User user,
+            Project project,
+            LocalDateTime startDate,
+            LocalDateTime endDate,
+            ParticipationStatus status) {
         this.id = id;
         this.user = user;
         this.project = project;

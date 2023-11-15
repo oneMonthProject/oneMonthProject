@@ -39,7 +39,16 @@ public class Project extends BaseTimeEntity {
     private LocalDateTime endDate;
 
     @Builder
-    public Project(Long id, String name, String subject, TrustGrade trustGrade, User user, ProjectStatus status, int crewNumber, LocalDateTime startDate, LocalDateTime endDate) {
+    public Project(
+            Long id,
+            String name,
+            String subject,
+            TrustGrade trustGrade,
+            User user,
+            ProjectStatus status,
+            int crewNumber,
+            LocalDateTime startDate,
+            LocalDateTime endDate) {
         this.id = id;
         this.name = name;
         this.subject = subject;
