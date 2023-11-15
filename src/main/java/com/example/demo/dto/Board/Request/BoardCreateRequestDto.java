@@ -1,11 +1,10 @@
 package com.example.demo.dto.Board.Request;
 
 import com.example.demo.model.Position;
+import java.util.List;
+import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -13,8 +12,10 @@ public class BoardCreateRequestDto {
 
     @NotBlank(message = "게시물 제목은 필수 입력 값입니다.")
     private String title;
+
     @NotBlank(message = "게시물 연락은 필수 입력 값입니다.")
     private String contact;
+
     @NotBlank(message = "게시물 제목은 필수 입력 값입니다.")
     private String content;
 

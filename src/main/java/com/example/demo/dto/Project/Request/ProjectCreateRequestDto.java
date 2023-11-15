@@ -1,12 +1,11 @@
 package com.example.demo.dto.Project.Request;
 
 import com.example.demo.model.TrustGrade;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 // 프로젝트 개설 요청 DTO
 @Getter

@@ -1,12 +1,10 @@
 package com.example.demo.dto.Project.Response;
 
 import com.example.demo.constant.ProjectStatus;
-import com.example.demo.dto.board.BoardCreateResponseDto;
 import com.example.demo.model.Project;
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -21,6 +19,7 @@ public class ProjectCreateResponseDto {
     private LocalDateTime endDate;
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
+
     public static ProjectCreateResponseDto of(Project project) {
         return ProjectCreateResponseDto.builder()
                 .name(project.getName())
