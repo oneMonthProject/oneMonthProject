@@ -15,6 +15,8 @@ import com.example.demo.dto.BoardProject.Response.BoardProjectCreateResponseDto;
 import com.example.demo.dto.BoardProject.Response.BoardProjectUpdateResponseDto;
 import com.example.demo.dto.Project.Response.ProjectCreateResponseDto;
 import com.example.demo.dto.Project.Response.ProjectUpdateResponseDto;
+import com.example.demo.global.exception.customexception.BoardCustomException;
+import com.example.demo.global.exception.errorcode.BoardErrorCode;
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import com.querydsl.core.BooleanBuilder;
@@ -100,9 +102,13 @@ public class BoardService {
         }
     }
 
-    public BoardProjectCreateResponseDto create(BoardProjectCreateRequestDto dto) throws Exception {
-
-        User tempUser = userRepository.findById(1L).get(); // 나중에 Security로 고쳐야 함.
+    /**
+     * 게시글, 프로젝트 생성
+     * @param dto
+     * @return
+     */
+    public BoardProjectCreateResponseDto create(BoardProjectCreateRequestDto dto){
+        User tempUser = userRepository.findById(1L).orElseThrow(() -> BoardCustomException.NOT_FOUND_BOARD); // 나중에 Security로 고쳐야 함.
 
         // project 생성
         Project project =
@@ -146,7 +152,12 @@ public class BoardService {
         return new BoardProjectCreateResponseDto(boardCreateResponseDto, projectCreateResponseDto);
     }
 
-    public BoardProjectUpdateResponseDto update(BoardProjectUpdateRequestDto dto) throws Exception {
+    /**
+     * 게시글, 프로젝트 업데이트
+     * @param dto
+     * @return
+     */
+    public BoardProjectUpdateResponseDto update(BoardProjectUpdateRequestDto dto) {
         Project project = projectRepository.findById(dto.getProject().getProjectId()).get();
         User tempUser = userRepository.findById(1L).get(); // 나중에 Security로 고쳐야 함.
 
@@ -197,7 +208,11 @@ public class BoardService {
         return new BoardProjectUpdateResponseDto(boardUpdateResponseDto, projectUpdateResponseDto);
     }
 
-    public void delete(Long boardId) throws Exception {
+    /**
+     * 게시글 삭제
+     * @param boardId
+     */
+    public void delete(Long boardId){
         Board board = boardRepository.findById(boardId).get();
         boardRepository.delete(board);
     }
