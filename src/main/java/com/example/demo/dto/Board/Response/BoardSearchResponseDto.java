@@ -1,6 +1,6 @@
 package com.example.demo.dto.Board.Response;
 
-import com.example.demo.dto.Project.Response.ProjectResponseDto;
+import com.example.demo.dto.Project.Response.ProjectSearchResponseDto;
 import com.example.demo.dto.User.UserSearchResponseDto;
 import com.example.demo.model.Board;
 import java.time.LocalDateTime;
@@ -13,7 +13,7 @@ public class BoardSearchResponseDto {
     private Long boardId;
     private String boardTitle;
     private String boardContent;
-    private ProjectResponseDto project;
+    private ProjectSearchResponseDto project;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private int boardPageView;
@@ -24,14 +24,14 @@ public class BoardSearchResponseDto {
     private LocalDateTime updateDate;
 
     public static BoardSearchResponseDto of(Board board) {
-        ProjectResponseDto boardProjectResponseDto = ProjectResponseDto.of(board.getProject());
+        ProjectSearchResponseDto boardProjectSearchResponseDto = ProjectSearchResponseDto.of(board.getProject());
         UserSearchResponseDto userSearchResponseDto = UserSearchResponseDto.of(board.getUser());
 
         return BoardSearchResponseDto.builder()
                 .boardId(board.getId())
                 .boardTitle(board.getTitle())
                 .boardContent(board.getContent())
-                .project(boardProjectResponseDto)
+                .project(boardProjectSearchResponseDto)
                 .boardPageView(board.getPageView())
                 .boardCompleteStatus(board.isCompleteStatus())
                 .user(userSearchResponseDto)
