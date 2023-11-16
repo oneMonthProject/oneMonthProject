@@ -27,8 +27,7 @@ public class BoardController {
             List<BoardSearchResponseDto> result = boardService.search(dto);
             return new ResponseEntity<>(new ResponseDto<>("success", result), HttpStatus.OK);
         } catch (Exception exception) {
-            return new ResponseEntity<>(
-                    new ResponseDto<>("fail", exception.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ResponseDto<>("fail", exception.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -39,8 +38,7 @@ public class BoardController {
             BoardProjectCreateResponseDto result = boardService.create(requestDto);
             return new ResponseEntity<>(new ResponseDto<>("success", result), HttpStatus.OK);
         } catch (Exception exception) {
-            return new ResponseEntity<>(
-                    new ResponseDto<>("fail", exception.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ResponseDto<>("fail", exception.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -50,8 +48,7 @@ public class BoardController {
             BoardProjectUpdateResponseDto result = boardService.update(requestDto);
             return new ResponseEntity<>(new ResponseDto<>("success", result), HttpStatus.OK);
         } catch (Exception exception) {
-            return new ResponseEntity<>(
-                    new ResponseDto<>("fail", exception.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ResponseDto<>("fail", exception.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -61,8 +58,7 @@ public class BoardController {
             boardService.delete(boardId);
             return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.NO_CONTENT);
         } catch (Exception exception) {
-            return new ResponseEntity<>(
-                    new ResponseDto<>("fail", exception.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ResponseDto<>("fail", exception.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 }
