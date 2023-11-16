@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -33,6 +35,10 @@ public class Board extends BaseTimeEntity {
 
     private String contact;
 
+    @OneToMany(mappedBy = "board", orphanRemoval = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "poisiton")
+    private List<BoardPosition> positions = new ArrayList<>();
+
     @Builder
     private Board(
             Long id,
@@ -51,5 +57,9 @@ public class Board extends BaseTimeEntity {
         this.completeStatus = completeStatus;
         this.user = user;
         this.contact = contact;
+    }
+
+    public void setPositions(List<BoardPosition> list) {
+        this.positions = list;
     }
 }

@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import com.example.demo.constant.ProjectStatus;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 import lombok.*;
 
@@ -38,6 +40,9 @@ public class Project extends BaseTimeEntity {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
+    @OneToMany(mappedBy = "position")
+    private List<BoardPosition> boardPositions = new ArrayList<>();
+
     @Builder
     public Project(
             Long id,
@@ -58,5 +63,9 @@ public class Project extends BaseTimeEntity {
         this.crewNumber = crewNumber;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public void changeBoardPosition(List<BoardPosition> boardPositions) {
+        this.boardPositions = boardPositions;
     }
 }
