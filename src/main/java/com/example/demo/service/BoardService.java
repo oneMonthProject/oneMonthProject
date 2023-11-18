@@ -176,7 +176,6 @@ public class BoardService {
 
         // project 생성
         project = Project.builder()
-                        .id(project.getId())
                         .name(dto.getProject().getProjectName())
                         .subject(dto.getProject().getProjectSubject())
                         .trustGrade(trustGrade)
