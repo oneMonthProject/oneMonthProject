@@ -1,11 +1,7 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
-<<<<<<< HEAD
-=======
-
 import com.example.demo.constant.ProjectMemberStatus;
->>>>>>> develop
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
