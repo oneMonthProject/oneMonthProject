@@ -1,9 +1,5 @@
 package com.example.demo.dto.Board.Request;
 
-<<<<<<< HEAD
-import com.example.demo.model.Position;
-=======
->>>>>>> develop
 import java.util.List;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
