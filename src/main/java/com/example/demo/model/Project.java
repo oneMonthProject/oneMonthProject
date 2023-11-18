@@ -40,12 +40,11 @@ public class Project extends BaseTimeEntity {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
-    @OneToMany(mappedBy = "position")
-    private List<BoardPosition> boardPositions = new ArrayList<>();
+    @OneToMany(mappedBy = "project")
+    private List<ProjectMember> projectMembers = new ArrayList<>();
 
     @Builder
     public Project(
-            Long id,
             String name,
             String subject,
             TrustGrade trustGrade,
@@ -54,7 +53,6 @@ public class Project extends BaseTimeEntity {
             int crewNumber,
             LocalDateTime startDate,
             LocalDateTime endDate) {
-        this.id = id;
         this.name = name;
         this.subject = subject;
         this.trustGrade = trustGrade;
@@ -65,7 +63,7 @@ public class Project extends BaseTimeEntity {
         this.endDate = endDate;
     }
 
-    public void changeBoardPosition(List<BoardPosition> boardPositions) {
-        this.boardPositions = boardPositions;
+    public void changeProjectMembers(List<ProjectMember> projectMembers){
+        this.projectMembers = projectMembers;
     }
 }
