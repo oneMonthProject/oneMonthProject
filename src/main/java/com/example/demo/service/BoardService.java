@@ -94,8 +94,7 @@ public class BoardService {
 
     public BooleanExpression containsPositionIds(List<Position> positionIds) {
         QBoardPosition qBoardPosition = boardPosition;
-        Long count =
-                queryFactory
+        Long count = queryFactory
                         .select(qBoardPosition.count())
                         .from(qBoardPosition)
                         .where(qBoardPosition.position.in(positionIds))
@@ -115,18 +114,15 @@ public class BoardService {
      * @return
      */
     public BoardProjectCreateResponseDto create(BoardProjectCreateRequestDto dto) {
-        User tempUser =
-                userRepository
+        User tempUser = userRepository
                         .findById(1L)
-                        .orElseThrow(
-                                () -> BoardCustomException.NOT_FOUND_BOARD); // 나중에 Security로 고쳐야 함.
+                        .orElseThrow(() -> BoardCustomException.NOT_FOUND_BOARD); // 나중에 Security로 고쳐야 함.
 
 
         TrustGrade trustGrade = trustGradeRepository.findById(dto.getProject().getProjectTrustId()).orElseThrow(() -> TrustGradeCustomException.NOT_FOUND_TRUST_GRADE);
 
         // project 생성
-        Project project =
-                Project.builder()
+        Project project = Project.builder()
                         .name(dto.getProject().getProjectName())
                         .subject(dto.getProject().getProjectSubject())
                         .trustGrade(trustGrade)
@@ -140,8 +136,7 @@ public class BoardService {
         Project savedProject = projectRepository.save(project);
 
         // board 생성
-        Board board =
-                Board.builder()
+        Board board = Board.builder()
                         .title(dto.getBoard().getTitle())
                         .content(dto.getBoard().getContent())
                         .project(savedProject)
