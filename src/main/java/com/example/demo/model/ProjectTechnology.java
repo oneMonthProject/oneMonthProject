@@ -20,6 +20,6 @@ public class ProjectTechnology {
     private Project project;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "technology_stack_id")
+    @JoinColumn(name = "technology_stack_id")
     private TechnologyStack technologyStack;
 }
