@@ -13,7 +13,7 @@ public class ProjectUpdateRequestDto {
     private Long projectId;
     private String projectName;
     private String projectSubject;
-    private TrustGrade projectTrust;
+    private Long projectTrustId;
     private int projectCrewNumber;
     private LocalDateTime projectStartDate;
     private LocalDateTime projectEndDate;

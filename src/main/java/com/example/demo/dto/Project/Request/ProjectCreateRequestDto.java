@@ -18,7 +18,7 @@ public class ProjectCreateRequestDto {
     private String projectSubject;
 
     @NotBlank(message = "프로젝트 신뢰등급은 필수 입력 값입니다.")
-    private TrustGrade projectTrust;
+    private Long projectTrustId;
 
     @NotBlank(message = "프로젝트 인원 수는 필수 입력 값입니다.")
     private int projectCrewNumber;
