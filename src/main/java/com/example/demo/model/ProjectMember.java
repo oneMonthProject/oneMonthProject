@@ -1,6 +1,11 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+<<<<<<< HEAD
+=======
+
+import com.example.demo.constant.ProjectMemberStatus;
+>>>>>>> develop
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,7 +36,7 @@ public class ProjectMember extends BaseTimeEntity {
     private ProjectMemberAuth projectMemberAuth;
 
     @Column(name = "project_member_status")
-    private String status;
+    private ProjectMemberStatus status;
 
     @OneToOne
     @JoinColumn(name = "position_id")
@@ -43,7 +48,7 @@ public class ProjectMember extends BaseTimeEntity {
             Project project,
             User user,
             ProjectMemberAuth projectMemberAuth,
-            String status,
+            ProjectMemberStatus status,
             Position position) {
         this.id = id;
         this.project = project;
