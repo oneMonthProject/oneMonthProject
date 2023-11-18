@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.Common.ResponseDto;
+import com.example.demo.dto.Project.Request.ProjectConfirmRequestDto;
 import com.example.demo.dto.Project.Request.ProjectParticipateRequestDto;
 import com.example.demo.dto.Project.Response.ProjectDetailResponseDto;
 import com.example.demo.dto.Project.Response.ProjectMeResponseDto;
@@ -37,6 +38,12 @@ public class ProjectController {
     @PostMapping("/{projectId}/participate")
     public ResponseEntity<ResponseDto<?>> participate(@PathVariable("projectId") Long projectId, @RequestBody ProjectParticipateRequestDto projectParticipateRequestDto){
         projectService.participate(projectId, projectParticipateRequestDto);
+        return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
+    }
+
+    @PostMapping("/{projectId}/confirm")
+    public ResponseEntity<ResponseDto<?>> confirm(@PathVariable("projectId") Long projectId, @RequestBody ProjectConfirmRequestDto projectConfirmRequestDto){
+        projectService.confirm(projectId, projectConfirmRequestDto);
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
     }
 }

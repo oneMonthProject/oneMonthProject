@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
+import com.example.demo.constant.AlertType;
 import com.example.demo.constant.ProjectMemberStatus;
 import com.example.demo.dto.Position.Response.PositionResponseDto;
+import com.example.demo.dto.Project.Request.ProjectConfirmRequestDto;
 import com.example.demo.dto.Project.Request.ProjectParticipateRequestDto;
 import com.example.demo.dto.Project.Response.ProjectDetailResponseDto;
 import com.example.demo.dto.Project.Response.ProjectMeResponseDto;
@@ -35,6 +37,7 @@ public class ProjectService {
     private final WorkRepository workRepository;
     private final ProjectMemberAuthRepository projectMemberAuthRepository;
     private final PositionRepository positionRepository;
+    private final AlertRepository alertRepository;
 
     @Transactional(readOnly = true)
     public List<ProjectMeResponseDto> getMyProjects(){
@@ -96,11 +99,37 @@ public class ProjectService {
         );
     }
 
+    /**
+     * 참여하기
+     * 참여하는 경우 알림보내기
+     * @param projectId
+     * @param projectParticipateRequestDto
+     */
     public void participate(Long projectId, ProjectParticipateRequestDto projectParticipateRequestDto){
         Project project = projectRepository.findById(projectId).orElseThrow(() -> ProjectCustomException.NOT_FOUND_PROJECT);
         User user = userRepository.findById(1L).orElseThrow(() -> UserCustomException.NOT_FOUND_USER);
-        ProjectMemberAuth projectMemberAuth = projectMemberAuthRepository.findById(projectParticipateRequestDto.getProjectMemberAuthId()).orElseThrow(() -> ProjectMemberAuthCustomException.NOT_FOUND_PROJECT_MEMBER_AUTH);
-        Position position = positionRepository.findById(projectParticipateRequestDto.getPositionId()).orElseThrow(() -> PositionCustomException.NOT_FOUND_POSITION);
+        Alert alert = Alert.builder()
+                .project(project)
+                .user(user)
+                .content("프로젝트 지원했습니다.")
+                .type(AlertType.RECRUIT)
+                .checked_YN(false)
+                .build();
+
+        alertRepository.save(alert);
+    }
+
+
+    /**
+     * 참여 수락하기
+     * @param projectId
+     * @param projectConfirmRequestDto
+     */
+    public void confirm(Long projectId, ProjectConfirmRequestDto projectConfirmRequestDto){
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> ProjectCustomException.NOT_FOUND_PROJECT);
+        User user = userRepository.findById(1L).orElseThrow(() -> UserCustomException.NOT_FOUND_USER);
+        ProjectMemberAuth projectMemberAuth = projectMemberAuthRepository.findById(projectConfirmRequestDto.getProjectMemberAuthId()).orElseThrow(() -> ProjectMemberAuthCustomException.NOT_FOUND_PROJECT_MEMBER_AUTH);
+        Position position = positionRepository.findById(projectConfirmRequestDto.getPositionId()).orElseThrow(() -> PositionCustomException.NOT_FOUND_POSITION);
 
         ProjectMember projectMember = ProjectMember.builder()
                 .project(project)
