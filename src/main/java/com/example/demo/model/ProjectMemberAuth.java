@@ -27,9 +27,7 @@ public class ProjectMemberAuth {
     private boolean workChangeYN;
 
     @Builder
-    public ProjectMemberAuth(
-            Long id, String name, boolean milestoneChangeYN, boolean workChangeYN) {
-        this.id = id;
+    public ProjectMemberAuth(String name, boolean milestoneChangeYN, boolean workChangeYN) {
         this.name = name;
         this.milestoneChangeYN = milestoneChangeYN;
         this.workChangeYN = workChangeYN;

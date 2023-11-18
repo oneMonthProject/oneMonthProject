@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
+import com.example.demo.constant.ProjectMemberStatus;
 import com.example.demo.dto.Position.Response.PositionResponseDto;
+import com.example.demo.dto.Project.Request.ProjectParticipateRequestDto;
 import com.example.demo.dto.Project.Response.ProjectDetailResponseDto;
 import com.example.demo.dto.Project.Response.ProjectMeResponseDto;
 import com.example.demo.dto.Project.Response.ProjectSpecificDetailResponseDto;
@@ -12,20 +14,12 @@ import com.example.demo.dto.User.Response.UserMyProjectResponseDto;
 import com.example.demo.dto.User.Response.UserProjectDetailResponseDto;
 import com.example.demo.dto.User.Response.UserProjectResponseDto;
 import com.example.demo.dto.Work.Response.WorkProjectDetailResponseDto;
-import com.example.demo.global.exception.customexception.ProjectCustomException;
-import com.example.demo.global.exception.customexception.ProjectMemberCustomException;
-import com.example.demo.global.exception.customexception.UserCustomException;
-import com.example.demo.global.exception.customexception.WorkCustomException;
-import com.example.demo.model.Project;
-import com.example.demo.model.ProjectMember;
-import com.example.demo.model.User;
-import com.example.demo.model.Work;
-import com.example.demo.repository.ProjectMemberRepository;
-import com.example.demo.repository.ProjectRepository;
-import com.example.demo.repository.UserRepository;
-import com.example.demo.repository.WorkRepository;
+import com.example.demo.global.exception.customexception.*;
+import com.example.demo.model.*;
+import com.example.demo.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +27,16 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class ProjectService {
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
     private final ProjectMemberRepository projectMemberRepository;
     private final WorkRepository workRepository;
+    private final ProjectMemberAuthRepository projectMemberAuthRepository;
+    private final PositionRepository positionRepository;
 
+    @Transactional(readOnly = true)
     public List<ProjectMeResponseDto> getMyProjects(){
         User user = userRepository.findById(1L).orElseThrow(() -> UserCustomException.NOT_FOUND_USER);
         List<Project> projects = projectRepository.findByUser(user.getId());
@@ -61,6 +59,7 @@ public class ProjectService {
         return result;
     }
 
+    @Transactional(readOnly = true)
     public ProjectSpecificDetailResponseDto getDetail(Long projectId){
         Project project = projectRepository.findById(projectId).orElseThrow(() -> ProjectCustomException.NOT_FOUND_PROJECT);
         TrustGradeDto trustGradeDto = TrustGradeDto.of(project.getTrustGrade());
@@ -95,5 +94,22 @@ public class ProjectService {
                 projectMemberDetailResponseDtos,
                 workProjectDetailResponseDtos
         );
+    }
+
+    public void participate(Long projectId, ProjectParticipateRequestDto projectParticipateRequestDto){
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> ProjectCustomException.NOT_FOUND_PROJECT);
+        User user = userRepository.findById(1L).orElseThrow(() -> UserCustomException.NOT_FOUND_USER);
+        ProjectMemberAuth projectMemberAuth = projectMemberAuthRepository.findById(projectParticipateRequestDto.getProjectMemberAuthId()).orElseThrow(() -> ProjectMemberAuthCustomException.NOT_FOUND_PROJECT_MEMBER_AUTH);
+        Position position = positionRepository.findById(projectParticipateRequestDto.getPositionId()).orElseThrow(() -> PositionCustomException.NOT_FOUND_POSITION);
+
+        ProjectMember projectMember = ProjectMember.builder()
+                .project(project)
+                .user(user)
+                .projectMemberAuth(projectMemberAuth)
+                .status(ProjectMemberStatus.PARTICIPATING)
+                .position(position)
+                .build();
+
+        projectMemberRepository.save(projectMember);
     }
 }
