@@ -9,9 +9,7 @@ import com.example.demo.dto.BoardProject.Response.BoardProjectUpdateResponseDto;
 import com.example.demo.dto.Common.ResponseDto;
 import com.example.demo.service.BoardService;
 import java.util.List;
-
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -31,7 +29,8 @@ public class BoardController {
     }
 
     @PostMapping("")
-    public ResponseEntity<ResponseDto<?>> create(@RequestBody BoardProjectCreateRequestDto requestDto) {
+    public ResponseEntity<ResponseDto<?>> create(
+            @RequestBody BoardProjectCreateRequestDto requestDto) {
         BoardProjectCreateResponseDto result = boardService.create(requestDto);
         return new ResponseEntity<>(new ResponseDto<>("success", result), HttpStatus.OK);
     }

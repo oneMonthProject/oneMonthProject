@@ -35,13 +35,11 @@ public class Board extends BaseTimeEntity {
 
     private String contact;
 
-    @OneToMany(mappedBy = "board", orphanRemoval = true, cascade = CascadeType.ALL)
-    @JoinColumn(name = "poisiton")
+    @OneToMany(mappedBy = "board")
     private List<BoardPosition> positions = new ArrayList<>();
 
     @Builder
     private Board(
-            Long id,
             String title,
             String content,
             Project project,
@@ -49,7 +47,6 @@ public class Board extends BaseTimeEntity {
             boolean completeStatus,
             User user,
             String contact) {
-        this.id = id;
         this.title = title;
         this.content = content;
         this.project = project;

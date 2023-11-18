@@ -15,4 +15,10 @@ public class TrustGrade extends BaseTimeEntity {
 
     private String name;
     private int score;
+
+    @Builder
+    private TrustGrade(String name, int score) {
+        this.name = name;
+        this.score = score;
+    }
 }

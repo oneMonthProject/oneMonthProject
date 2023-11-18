@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import static com.example.demo.constant.ProjectStatus.RECRUITING;
+import static com.example.demo.global.exception.errorcode.TrustGradeErrorCode.NOT_FOUND_TRUST_GRADE;
 import static com.example.demo.model.QBoard.board;
 import static com.example.demo.model.QBoardPosition.boardPosition;
 import static com.example.demo.model.QProject.project;
@@ -15,8 +16,11 @@ import com.example.demo.dto.BoardProject.Response.BoardProjectCreateResponseDto;
 import com.example.demo.dto.BoardProject.Response.BoardProjectUpdateResponseDto;
 import com.example.demo.dto.Project.Response.ProjectCreateResponseDto;
 import com.example.demo.dto.Project.Response.ProjectUpdateResponseDto;
+import com.example.demo.dto.TrustGrade.TrustGradeDto;
 import com.example.demo.global.exception.customexception.BoardCustomException;
-import com.example.demo.global.exception.errorcode.BoardErrorCode;
+import com.example.demo.global.exception.customexception.PositionCustomException;
+import com.example.demo.global.exception.customexception.TrustGradeCustomException;
+import com.example.demo.global.exception.errorcode.PositionErrorCode;
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import com.querydsl.core.BooleanBuilder;
@@ -44,6 +48,8 @@ public class BoardService {
     @Autowired BoardPositionRepository boardPositionRepository;
 
     @Autowired private JPAQueryFactory queryFactory;
+
+    @Autowired TrustGradeRepository trustGradeRepository;
 
     /**
      * 게시글 목록 검색
@@ -104,18 +110,26 @@ public class BoardService {
 
     /**
      * 게시글, 프로젝트 생성
+     *
      * @param dto
      * @return
      */
-    public BoardProjectCreateResponseDto create(BoardProjectCreateRequestDto dto){
-        User tempUser = userRepository.findById(1L).orElseThrow(() -> BoardCustomException.NOT_FOUND_BOARD); // 나중에 Security로 고쳐야 함.
+    public BoardProjectCreateResponseDto create(BoardProjectCreateRequestDto dto) {
+        User tempUser =
+                userRepository
+                        .findById(1L)
+                        .orElseThrow(
+                                () -> BoardCustomException.NOT_FOUND_BOARD); // 나중에 Security로 고쳐야 함.
+
+
+        TrustGrade trustGrade = trustGradeRepository.findById(dto.getProject().getProjectTrustId()).orElseThrow(() -> TrustGradeCustomException.NOT_FOUND_TRUST_GRADE);
 
         // project 생성
         Project project =
                 Project.builder()
                         .name(dto.getProject().getProjectName())
                         .subject(dto.getProject().getProjectSubject())
-                        .trustGrade(dto.getProject().getProjectTrust())
+                        .trustGrade(trustGrade)
                         .user(tempUser)
                         .status(RECRUITING)
                         .crewNumber(dto.getProject().getProjectCrewNumber())
@@ -139,7 +153,8 @@ public class BoardService {
 
         // boardPosition 생성
         List<BoardPosition> boardPositionList = new ArrayList<>();
-        for (Position position : dto.getBoard().getPositions()) {
+        for (Long positionId : dto.getBoard().getPositionIds()) {
+            Position position = positionRepository.findById(positionId).orElseThrow(() -> PositionCustomException.NOT_FOUND_POSITION);
             BoardPosition boardPosition = new BoardPosition(savedBoard, position);
             boardPositionRepository.save(boardPosition);
         }
@@ -154,6 +169,7 @@ public class BoardService {
 
     /**
      * 게시글, 프로젝트 업데이트
+     *
      * @param dto
      * @return
      */
@@ -161,13 +177,14 @@ public class BoardService {
         Project project = projectRepository.findById(dto.getProject().getProjectId()).get();
         User tempUser = userRepository.findById(1L).get(); // 나중에 Security로 고쳐야 함.
 
+        TrustGrade trustGrade = trustGradeRepository.findById(dto.getProject().getProjectTrustId()).orElseThrow(() -> TrustGradeCustomException.NOT_FOUND_TRUST_GRADE);
+
         // project 생성
-        Project newProject =
-                Project.builder()
+        project = Project.builder()
                         .id(project.getId())
                         .name(dto.getProject().getProjectName())
                         .subject(dto.getProject().getProjectSubject())
-                        .trustGrade(dto.getProject().getProjectTrust())
+                        .trustGrade(trustGrade)
                         .user(project.getUser())
                         .status(project.getStatus())
                         .crewNumber(dto.getProject().getProjectCrewNumber())
@@ -175,14 +192,12 @@ public class BoardService {
                         .endDate(dto.getProject().getProjectEndDate())
                         .build();
 
-        Project savedProject = projectRepository.save(newProject);
+        Project savedProject = projectRepository.save(project);
 
         // board 생성
         Board board = boardRepository.findById(dto.getBoard().getBoardId()).get();
 
-        Board newBoard =
-                Board.builder()
-                        .id(board.getId())
+        board = Board.builder()
                         .title(dto.getBoard().getTitle())
                         .content(dto.getBoard().getContent())
                         .project(board.getProject())
@@ -190,13 +205,14 @@ public class BoardService {
                         .contact(dto.getBoard().getContent())
                         .build();
 
-        Board savedBoard = boardRepository.save(newBoard);
+        Board savedBoard = boardRepository.save(board);
 
         // position 받아서 다시 보드-포지션 연결
         List<BoardPosition> boardPositionList = new ArrayList<>();
-        for (Position position : dto.getBoard().getPositions()) {
+        for (Long positionId : dto.getBoard().getPositions()) {
+            Position position = positionRepository.findById(positionId).orElseThrow(() -> PositionCustomException.NOT_FOUND_POSITION);
             BoardPosition boardPosition = new BoardPosition(savedBoard, position);
-            boardPositionRepository.save(boardPosition);
+            //boardPositionRepository.save(boardPosition);
             boardPositionList.add(boardPosition);
         }
         savedBoard.setPositions(boardPositionList);
@@ -210,9 +226,10 @@ public class BoardService {
 
     /**
      * 게시글 삭제
+     *
      * @param boardId
      */
-    public void delete(Long boardId){
+    public void delete(Long boardId) {
         Board board = boardRepository.findById(boardId).get();
         boardRepository.delete(board);
     }

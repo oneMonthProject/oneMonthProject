@@ -1,7 +1,7 @@
 package com.example.demo.dto.Board.Response;
 
 import com.example.demo.dto.Project.Response.ProjectSearchResponseDto;
-import com.example.demo.dto.User.UserSearchResponseDto;
+import com.example.demo.dto.User.Response.UserSearchResponseDto;
 import com.example.demo.model.Board;
 import java.time.LocalDateTime;
 import lombok.Builder;
@@ -24,7 +24,8 @@ public class BoardSearchResponseDto {
     private LocalDateTime updateDate;
 
     public static BoardSearchResponseDto of(Board board) {
-        ProjectSearchResponseDto boardProjectSearchResponseDto = ProjectSearchResponseDto.of(board.getProject());
+        ProjectSearchResponseDto boardProjectSearchResponseDto =
+                ProjectSearchResponseDto.of(board.getProject());
         UserSearchResponseDto userSearchResponseDto = UserSearchResponseDto.of(board.getUser());
 
         return BoardSearchResponseDto.builder()

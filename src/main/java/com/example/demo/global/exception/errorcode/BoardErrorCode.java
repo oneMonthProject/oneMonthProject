@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
-public enum BoardErrorCode implements ErrorCode{
+public enum BoardErrorCode implements ErrorCode {
     NOT_FOUND_BOARD(HttpStatus.NOT_FOUND, "B_001", "해당 게시글이 존재하지 않습니다.");
 
     private HttpStatus status;
