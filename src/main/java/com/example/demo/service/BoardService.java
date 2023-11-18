@@ -7,16 +7,19 @@ import static com.example.demo.model.QBoardPosition.boardPosition;
 import static com.example.demo.model.QProject.project;
 
 import com.example.demo.dto.Board.Request.BoardSearchRequestDto;
-import com.example.demo.dto.Board.Response.BoardCreateResponseDto;
-import com.example.demo.dto.Board.Response.BoardSearchResponseDto;
-import com.example.demo.dto.Board.Response.BoardUpdateResponseDto;
+import com.example.demo.dto.Board.Response.*;
+import com.example.demo.dto.BoardPosition.Response.BoardPositionDetailResponseDto;
 import com.example.demo.dto.BoardProject.Request.BoardProjectCreateRequestDto;
 import com.example.demo.dto.BoardProject.Request.BoardProjectUpdateRequestDto;
 import com.example.demo.dto.BoardProject.Response.BoardProjectCreateResponseDto;
 import com.example.demo.dto.BoardProject.Response.BoardProjectUpdateResponseDto;
+import com.example.demo.dto.Position.Response.PositionResponseDto;
 import com.example.demo.dto.Project.Response.ProjectCreateResponseDto;
+import com.example.demo.dto.Project.Response.ProjectDetailResponseDto;
 import com.example.demo.dto.Project.Response.ProjectUpdateResponseDto;
 import com.example.demo.dto.TrustGrade.TrustGradeDto;
+import com.example.demo.dto.User.Response.UserBoardDetailResponseDto;
+import com.example.demo.dto.User.Response.UserProjectResponseDto;
 import com.example.demo.global.exception.customexception.BoardCustomException;
 import com.example.demo.global.exception.customexception.PositionCustomException;
 import com.example.demo.global.exception.customexception.TrustGradeCustomException;
@@ -106,7 +109,7 @@ public class BoardService {
             return Expressions.asBoolean(false);
         }
     }
-
+    
     /**
      * 게시글, 프로젝트 생성
      *
@@ -161,10 +164,32 @@ public class BoardService {
 
         return new BoardProjectCreateResponseDto(boardCreateResponseDto, projectCreateResponseDto);
     }
+    
+    //게시글 상세 조회
+    public BoardTotalDetailResponseDto getDetail(Long boardId) {
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> BoardCustomException.NOT_FOUND_BOARD);
+        UserBoardDetailResponseDto userBoardDetailResponseDto = UserBoardDetailResponseDto.of(board.getUser());
+
+        List<BoardPositionDetailResponseDto> boardPositionDetailResponseDtos = new ArrayList<>();
+        for(BoardPosition boardPosition : board.getPositions()){
+            PositionResponseDto positionResponseDto = PositionResponseDto.of(boardPosition.getPosition());
+            BoardPositionDetailResponseDto boardPositionDetailResponseDto = BoardPositionDetailResponseDto.of(boardPosition, positionResponseDto);
+            boardPositionDetailResponseDtos.add(boardPositionDetailResponseDto);
+        }
+        BoardDetailResponseDto boardDetailResponseDto = BoardDetailResponseDto.of(board, userBoardDetailResponseDto, boardPositionDetailResponseDtos);
+
+        //ProjectDetailResponseDto 부분
+        TrustGradeDto trustGradeDto = TrustGradeDto.of(board.getProject().getTrustGrade());
+        UserProjectResponseDto userProjectResponseDto = UserProjectResponseDto.of(board.getProject());
+        ProjectDetailResponseDto projectDetailResponseDto = ProjectDetailResponseDto.of(board.getProject(), trustGradeDto, userProjectResponseDto);
+        
+        BoardTotalDetailResponseDto boardTotalDetailResponseDto = BoardTotalDetailResponseDto.of(boardDetailResponseDto,projectDetailResponseDto);
+
+        return boardTotalDetailResponseDto;
+    }
 
     /**
      * 게시글, 프로젝트 업데이트
-     *
      * @param dto
      * @return
      */

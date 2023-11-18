@@ -1,0 +1,45 @@
+package com.example.demo.dto.Board.Response;
+
+import com.example.demo.dto.BoardPosition.Response.BoardPositionDetailResponseDto;
+import com.example.demo.dto.Project.Response.ProjectDetailResponseDto;
+import com.example.demo.dto.User.Response.UserBoardDetailResponseDto;
+import com.example.demo.model.Board;
+import com.example.demo.model.BoardPosition;
+import lombok.Builder;
+import lombok.Getter;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Getter
+@Builder
+public class BoardDetailResponseDto {
+    private Long boardId;
+    private String title;
+    private String content;
+    private int pageView;
+    private boolean compeleteStatus;
+    private UserBoardDetailResponseDto user;
+    private String contact;
+    private LocalDateTime createDate;
+    private LocalDateTime updateDate;
+    private List<BoardPositionDetailResponseDto> boardPositions;
+
+    public static BoardDetailResponseDto of(Board board,
+                                            UserBoardDetailResponseDto userBoardDetailResponseDto,
+                                            List<BoardPositionDetailResponseDto> boardPositionDetailResponseDtos
+    ) {
+        return BoardDetailResponseDto.builder()
+                .boardId(board.getId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .pageView(board.getPageView())
+                .compeleteStatus(board.isCompleteStatus())
+                .user(userBoardDetailResponseDto)
+                .contact(board.getContact())
+                .createDate(board.getCreateDate())
+                .updateDate(board.getUpdateDate())
+                .boardPositions(boardPositionDetailResponseDtos)
+                .build();
+    }
+}
