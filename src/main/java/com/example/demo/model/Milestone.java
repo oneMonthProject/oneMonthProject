@@ -2,7 +2,6 @@ package com.example.demo.model;
 
 import java.time.LocalDateTime;
 import javax.persistence.*;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,7 +39,14 @@ public class Milestone {
     private boolean completeStatus;
 
     @Builder
-    public Milestone(Long id, Project project, String content, LocalDateTime startDate, LocalDateTime endDate, boolean expireStatus, boolean completeStatus) {
+    public Milestone(
+            Long id,
+            Project project,
+            String content,
+            LocalDateTime startDate,
+            LocalDateTime endDate,
+            boolean expireStatus,
+            boolean completeStatus) {
         this.id = id;
         this.project = project;
         this.content = content;

@@ -2,7 +2,6 @@ package com.example.demo.model;
 
 import java.time.LocalDateTime;
 import javax.persistence.*;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,7 +51,17 @@ public class Work extends BaseTimeEntity {
     private ProjectMember lastModifiedMember;
 
     @Builder
-    public Work(Long id, Project project, Milestone milestone, User assignedUserId, String content, boolean expireStatus, boolean completionStatus, LocalDateTime startDate, LocalDateTime endDate, ProjectMember lastModifiedMember) {
+    public Work(
+            Long id,
+            Project project,
+            Milestone milestone,
+            User assignedUserId,
+            String content,
+            boolean expireStatus,
+            boolean completionStatus,
+            LocalDateTime startDate,
+            LocalDateTime endDate,
+            ProjectMember lastModifiedMember) {
         this.id = id;
         this.project = project;
         this.milestone = milestone;

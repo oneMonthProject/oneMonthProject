@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,7 +38,13 @@ public class ProjectMember extends BaseTimeEntity {
     private Position position;
 
     @Builder
-    public ProjectMember(Long id, Project project, User user, ProjectMemberAuth projectMemberAuth, String status, Position position) {
+    public ProjectMember(
+            Long id,
+            Project project,
+            User user,
+            ProjectMemberAuth projectMemberAuth,
+            String status,
+            Position position) {
         this.id = id;
         this.project = project;
         this.user = user;
