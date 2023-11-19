@@ -62,4 +62,9 @@ public class WorkService {
         return workReadResponseDtos;
     }
 
+    public WorkReadResponseDto getOne(Long workId){
+        Work work = workRepository.findById(workId).orElseThrow(() -> WorkCustomException.NOT_FOUND_WORK);
+        return WorkReadResponseDto.of(work);
+    }
+
 }
