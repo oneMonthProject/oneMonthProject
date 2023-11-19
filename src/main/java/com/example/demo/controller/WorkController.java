@@ -2,15 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.Common.ResponseDto;
 import com.example.demo.dto.Work.Request.WorkCreateRequestDto;
+import com.example.demo.dto.Work.Request.WorkUpdateRequestDto;
 import com.example.demo.dto.Work.Response.WorkReadResponseDto;
 import com.example.demo.service.WorkService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,5 +34,11 @@ public class WorkController {
     public ResponseEntity<ResponseDto<?>> getOne(@PathVariable("workId") Long workId){
         WorkReadResponseDto result = workService.getOne(workId);
         return new ResponseEntity<>(new ResponseDto<>("success", result), HttpStatus.OK);
+    }
+
+    @PatchMapping("/api/work/{workId}")
+    public ResponseEntity<ResponseDto<?>> update(@PathVariable("workId") Long workId, WorkUpdateRequestDto workUpdateRequestDto){
+        workService.update(workId, workUpdateRequestDto);
+        return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
     }
 }

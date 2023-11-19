@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.Work.Request.WorkCreateRequestDto;
+import com.example.demo.dto.Work.Request.WorkUpdateRequestDto;
 import com.example.demo.dto.Work.Response.WorkReadResponseDto;
 import com.example.demo.global.exception.customexception.*;
 import com.example.demo.model.*;
@@ -41,7 +42,7 @@ public class WorkService {
                 .lastModifiedMember(projectMember)
                 .content(workCreateRequestDto.getContent())
                 .expireStatus(false)
-                .completionStatus(false)
+                .completeStatus(false)
                 .startDate(workCreateRequestDto.getStartDate())
                 .endDate(workCreateRequestDto.getEndDate())
                 .build();
@@ -65,6 +66,32 @@ public class WorkService {
     public WorkReadResponseDto getOne(Long workId){
         Work work = workRepository.findById(workId).orElseThrow(() -> WorkCustomException.NOT_FOUND_WORK);
         return WorkReadResponseDto.of(work);
+    }
+
+    /**
+     * 업무 수정
+     * TODO : 마지막 수정자 현재 유저인 구성원으로 변경
+     * @param workId
+     */
+    
+    public void update(Long workId, WorkUpdateRequestDto workUpdateRequestDto){
+        Work work = workRepository.findById(workId).orElseThrow(() -> WorkCustomException.NOT_FOUND_WORK);
+        User user = userRepository.findById(1L).orElseThrow(() -> UserCustomException.NOT_FOUND_USER);
+        ProjectMember projectMember = projectMemberRepository.findProjectMemberByProjectAndUser(work.getProject(), user).orElseThrow(() -> ProjectMemberCustomException.NOT_FOUND_PROJECT_MEMBER);
+
+        work = Work.builder()
+                .project(work.getProject())
+                .milestone(work.getMilestone())
+                .assignedUserId(work.getAssignedUserId())
+                .lastModifiedMember(projectMember)
+                .content(workUpdateRequestDto.getContent())
+                .expireStatus(work.isExpireStatus())
+                .completeStatus(work.isCompleteStatus())
+                .startDate(workUpdateRequestDto.getStartDate())
+                .endDate(workUpdateRequestDto.getEndDate())
+                .build();
+
+        workRepository.save(work);
     }
 
 }
