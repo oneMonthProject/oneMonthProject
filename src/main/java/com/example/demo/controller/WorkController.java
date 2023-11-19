@@ -1,10 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.Common.ResponseDto;
-import com.example.demo.dto.Work.Request.WorkCreateRequestDto;
-import com.example.demo.dto.Work.Request.WorkUpdateCompleteStatusRequestDto;
-import com.example.demo.dto.Work.Request.WorkUpdateContentRequestDto;
-import com.example.demo.dto.Work.Request.WorkUpdateRequestDto;
+import com.example.demo.dto.Work.Request.*;
 import com.example.demo.dto.Work.Response.WorkReadResponseDto;
 import com.example.demo.service.WorkService;
 import lombok.AllArgsConstructor;
@@ -59,6 +56,12 @@ public class WorkController {
     @PatchMapping("/api/work/{workId}/complete")
     public ResponseEntity<ResponseDto<?>> updateCompleteStatus(@PathVariable("workId") Long workId,  WorkUpdateCompleteStatusRequestDto workUpdateCompleteStatusRequestDto){
         workService.updateCompleteStatus(workId, workUpdateCompleteStatusRequestDto);
+        return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
+    }
+
+    @PatchMapping("/api/work/{workId}/assgin")
+    public ResponseEntity<ResponseDto<?>> updateAssign(@PathVariable("workId") Long workId,  UpdateWorkAssignUserRequestDto updateWorkAssignUserRequestDto){
+        workService.updateAssignUser(workId, updateWorkAssignUserRequestDto);
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
     }
 }
