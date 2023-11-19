@@ -7,5 +7,4 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ProjectParticipateRequestDto {
     private Long positionId;
-    private Long projectMemberAuthId;
 }
