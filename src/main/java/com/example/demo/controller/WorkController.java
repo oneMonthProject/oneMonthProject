@@ -41,4 +41,10 @@ public class WorkController {
         workService.update(workId, workUpdateRequestDto);
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
     }
+
+    @DeleteMapping("/api/work/{workId}")
+    public ResponseEntity<ResponseDto<?>> update(@PathVariable("workId") Long workId){
+        workService.delete(workId);
+        return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
+    }
 }

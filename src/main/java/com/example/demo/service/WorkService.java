@@ -94,4 +94,9 @@ public class WorkService {
         workRepository.save(work);
     }
 
+    public void delete(Long workId){
+        Work work = workRepository.findById(workId).orElseThrow(() -> WorkCustomException.NOT_FOUND_WORK);
+        workRepository.delete(work);
+    }
+
 }
