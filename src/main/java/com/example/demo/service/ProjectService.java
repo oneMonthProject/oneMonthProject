@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.constant.AlertType;
 import com.example.demo.constant.ProjectMemberStatus;
+import com.example.demo.constant.ProjectStatus;
 import com.example.demo.dto.Position.Response.PositionResponseDto;
 import com.example.demo.dto.Project.Request.ProjectConfirmRequestDto;
 import com.example.demo.dto.Project.Request.ProjectParticipateRequestDto;
@@ -141,5 +142,22 @@ public class ProjectService {
         projectMemberRepository.save(projectMember);
     }
 
+    public void end(Long projectId){
+        Project project = projectRepository.findById(projectId).orElseThrow(
+                () -> ProjectCustomException.NOT_FOUND_PROJECT
+        );
 
+        project = Project.builder()
+                .name(project.getName())
+                .subject(project.getSubject())
+                .trustGrade(project.getTrustGrade())
+                .user(project.getUser())
+                .status(ProjectStatus.FINISH)
+                .crewNumber(project.getCrewNumber())
+                .startDate(project.getStartDate())
+                .endDate(project.getEndDate())
+                .build();
+
+        projectRepository.save(project);
+    }
 }
