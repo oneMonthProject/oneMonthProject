@@ -1,11 +1,9 @@
 package com.example.demo.service;
 
 import static com.example.demo.constant.ProjectStatus.RECRUITING;
-import static com.example.demo.model.QBoard.board;
-import static com.example.demo.model.QBoardPosition.boardPosition;
-import static com.example.demo.model.QProject.project;
 
 import com.example.demo.constant.ProjectMemberStatus;
+import com.example.demo.constant.UserProjectHistoryStatus;
 import com.example.demo.dto.User.Response.UserBoardDetailResponseDto;
 import com.example.demo.dto.User.Response.UserProjectResponseDto;
 import com.example.demo.dto.board.Request.BoardSearchRequestDto;
@@ -25,11 +23,12 @@ import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,7 +52,7 @@ public class BoardService {
     private final TrustGradeRepository trustGradeRepository;
     private final ProjectMemberAuthRepository projectMemberAuthRepository;
     private final ProjectMemberRepository projectMemberRepository;
-
+    private final UserProjectHistoryRepository userProjectHistoryRepository;
     /**
      * 게시글 목록 검색
      *
@@ -217,7 +216,7 @@ public class BoardService {
 
     /**
      * 게시글, 프로젝트 업데이트
-     *
+     * TODO : 현재 유저가 업데이트 하도록 변경
      * @param dto
      * @return
      */
@@ -275,6 +274,16 @@ public class BoardService {
         }
         savedBoard.setPositions(boardPositionList);
 
+        UserProjectHistory userProjectHistory = UserProjectHistory.builder()
+                .user(tempUser)
+                .project(savedProject)
+                .startDate(LocalDateTime.now())
+                .endDate(savedProject.getEndDate())
+                .status(UserProjectHistoryStatus.PARTICIPATING)
+                .build();
+
+        userProjectHistoryRepository.save(userProjectHistory);
+        
         // response값 생성
         BoardUpdateResponseDto boardUpdateResponseDto = BoardUpdateResponseDto.of(board);
         ProjectUpdateResponseDto projectUpdateResponseDto = ProjectUpdateResponseDto.of(project);
