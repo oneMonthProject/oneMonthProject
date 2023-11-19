@@ -56,7 +56,7 @@ public class WorkController {
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
     }
 
-    @PatchMapping("/api/work/{workId}/completeStatus")
+    @PatchMapping("/api/work/{workId}/complete")
     public ResponseEntity<ResponseDto<?>> updateCompleteStatus(@PathVariable("workId") Long workId,  WorkUpdateCompleteStatusRequestDto workUpdateCompleteStatusRequestDto){
         workService.updateCompleteStatus(workId, workUpdateCompleteStatusRequestDto);
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
