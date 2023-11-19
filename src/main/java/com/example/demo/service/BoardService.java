@@ -115,18 +115,18 @@ public class BoardService {
                         .orElseThrow(() -> UserCustomException.NOT_FOUND_USER); // 나중에 Security로 고쳐야 함.
 
 
-        TrustGrade trustGrade = trustGradeRepository.findById(dto.getProject().getProjectTrustId()).orElseThrow(() -> TrustGradeCustomException.NOT_FOUND_TRUST_GRADE);
+        TrustGrade trustGrade = trustGradeRepository.findById(dto.getProject().getTrustGradeId()).orElseThrow(() -> TrustGradeCustomException.NOT_FOUND_TRUST_GRADE);
 
         // project 생성
         Project project = Project.builder()
-                        .name(dto.getProject().getProjectName())
-                        .subject(dto.getProject().getProjectSubject())
+                        .name(dto.getProject().getName())
+                        .subject(dto.getProject().getSubject())
                         .trustGrade(trustGrade)
                         .user(tempUser)
                         .status(RECRUITING)
-                        .crewNumber(dto.getProject().getProjectCrewNumber())
-                        .startDate(dto.getProject().getProjectStartDate())
-                        .endDate(dto.getProject().getProjectEndDate())
+                        .crewNumber(dto.getProject().getCrewNumber())
+                        .startDate(dto.getProject().getStartDate())
+                        .endDate(dto.getProject().getEndDate())
                         .build();
 
         Project savedProject = projectRepository.save(project);
