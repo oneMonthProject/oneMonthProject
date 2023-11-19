@@ -172,6 +172,16 @@ public class BoardService {
 
         projectMemberRepository.save(projectMember);
 
+        UserProjectHistory userProjectHistory = UserProjectHistory.builder()
+                .user(tempUser)
+                .project(savedProject)
+                .startDate(LocalDateTime.now())
+                .endDate(savedProject.getEndDate())
+                .status(UserProjectHistoryStatus.PARTICIPATING)
+                .build();
+
+        userProjectHistoryRepository.save(userProjectHistory);
+
         // response값 생성
         BoardCreateResponseDto boardCreateResponseDto = BoardCreateResponseDto.of(board);
         ProjectCreateResponseDto projectCreateResponseDto = ProjectCreateResponseDto.of(project);
@@ -274,16 +284,7 @@ public class BoardService {
         }
         savedBoard.setPositions(boardPositionList);
 
-        UserProjectHistory userProjectHistory = UserProjectHistory.builder()
-                .user(tempUser)
-                .project(savedProject)
-                .startDate(LocalDateTime.now())
-                .endDate(savedProject.getEndDate())
-                .status(UserProjectHistoryStatus.PARTICIPATING)
-                .build();
 
-        userProjectHistoryRepository.save(userProjectHistory);
-        
         // response값 생성
         BoardUpdateResponseDto boardUpdateResponseDto = BoardUpdateResponseDto.of(board);
         ProjectUpdateResponseDto projectUpdateResponseDto = ProjectUpdateResponseDto.of(project);
