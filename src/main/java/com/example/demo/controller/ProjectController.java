@@ -6,6 +6,7 @@ import com.example.demo.dto.Project.Request.ProjectParticipateRequestDto;
 import com.example.demo.dto.Project.Response.ProjectDetailResponseDto;
 import com.example.demo.dto.Project.Response.ProjectMeResponseDto;
 import com.example.demo.dto.Project.Response.ProjectSpecificDetailResponseDto;
+import com.example.demo.dto.ProjectMember.Request.ProjectWithDrawlConfirmRequestDto;
 import com.example.demo.service.ProjectService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +48,21 @@ public class ProjectController {
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
     }
 
-   @PostMapping("/{projectId}/withdrawl")
-   public ResponseEntity<ResponseDto<?>> withdrawl(@PathVariable("projectId") Long projectId){
-        projectService.withdrawlSendAlert(projectId);
+   @PostMapping("/{projectId}/member/{projectMemberId}/withdrawl")
+   public ResponseEntity<ResponseDto<?>> withdrawl(@PathVariable("projectId") Long projectId, @PathVariable("projectMemberId") Long projectMemberId){
+        projectService.withdrawlSendAlert(projectId, projectMemberId);
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
    }
+
+    @PostMapping("/{projectId}/member/{projectMemberId}/withdrawl/confirm")
+    public ResponseEntity<ResponseDto<?>> withdrawlConfirm(@PathVariable("projectId") Long projectId, @PathVariable("projectMemberId") Long projectMemberId){
+        projectService.withdrawlConfirm(projectId, projectMemberId);
+        return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
+    }
+
+    @PostMapping("/{projectId}/member/{projectMemberId}/withdrawl/force")
+    public ResponseEntity<ResponseDto<?>> withdrawlForce(@PathVariable("projectId") Long projectId, @PathVariable("projectMemberId") Long projectMemberId){
+        projectService.withdrawlForce(projectId, projectMemberId);
+        return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
+    }
 }

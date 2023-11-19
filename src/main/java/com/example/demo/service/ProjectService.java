@@ -8,6 +8,7 @@ import com.example.demo.dto.Project.Request.ProjectParticipateRequestDto;
 import com.example.demo.dto.Project.Response.ProjectDetailResponseDto;
 import com.example.demo.dto.Project.Response.ProjectMeResponseDto;
 import com.example.demo.dto.Project.Response.ProjectSpecificDetailResponseDto;
+import com.example.demo.dto.ProjectMember.Request.ProjectWithDrawlConfirmRequestDto;
 import com.example.demo.dto.ProjectMember.Response.MyProjectMemberResponseDto;
 import com.example.demo.dto.ProjectMember.Response.ProjectMemberDetailResponseDto;
 import com.example.demo.dto.ProjectMemberAuth.Response.ProjectMemberAuthResponseDto;
@@ -142,18 +143,33 @@ public class ProjectService {
         projectMemberRepository.save(projectMember);
     }
 
-    public void withdrawlSendAlert(Long projectId){
+    /**
+     * 프로젝트 탈퇴 알림 보내기
+     * @param projectId
+     */
+
+    public void withdrawlSendAlert(Long projectId,Long projectMemberId){
         Project project = projectRepository.findById(projectId).orElseThrow(() -> ProjectCustomException.NOT_FOUND_PROJECT);
-        User user = userRepository.findById(1L).orElseThrow(() -> UserCustomException.NOT_FOUND_USER);
+        ProjectMember projectMember = projectMemberRepository.findById(projectMemberId).orElseThrow(() -> ProjectMemberCustomException.NOT_FOUND_PROJECT_MEMBER);
 
         Alert alert = Alert.builder()
                 .project(project)
-                .user(user)
+                .user(projectMember.getUser())
                 .content("프로젝트 탈퇴")
                 .type(AlertType.WITHDRWAL)
                 .checked_YN(false)
                 .build();
 
         alertRepository.save(alert);
+    }
+
+    public void withdrawlConfirm(Long projectId, Long projectMemberId){
+        ProjectMember projectMember = projectMemberRepository.findById(projectMemberId).orElseThrow(() -> ProjectMemberCustomException.NOT_FOUND_PROJECT_MEMBER);
+        projectMemberRepository.delete(projectMember);
+    }
+
+    public void withdrawlForce(Long projectId, Long projectMemberId){
+        ProjectMember projectMember = projectMemberRepository.findById(projectMemberId).orElseThrow(() -> ProjectMemberCustomException.NOT_FOUND_PROJECT_MEMBER);
+        projectMemberRepository.delete(projectMember);
     }
 }
