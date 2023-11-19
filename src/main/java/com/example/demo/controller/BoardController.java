@@ -22,7 +22,7 @@ public class BoardController {
 
 private final BoardService boardService;
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     public ResponseEntity<ResponseDto<?>> get(@RequestBody BoardSearchRequestDto dto) {
         List<BoardSearchResponseDto> result = boardService.search(dto);
         return new ResponseEntity<>(new ResponseDto<>("success", result), HttpStatus.OK);
