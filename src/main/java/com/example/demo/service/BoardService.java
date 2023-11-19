@@ -72,7 +72,14 @@ public class BoardService {
         }
 
         if (dto.getPositionIds().size() > 0) {
-            builder.or(containsPositionIds(dto.getPositionIds()));
+
+            List<Position> positions = new ArrayList<>();
+            for(Long positionId : dto.getPositionIds()){
+                Position position = positionRepository.findById(positionId).orElseThrow(() -> PositionCustomException.NOT_FOUND_POSITION);
+                positions.add(position);
+            }
+
+            builder.or(containsPositionIds(positions));
         }
 
         List<Board> boards =
