@@ -162,7 +162,7 @@ public class BoardService {
         }
         savedBoard.setPositions(boardPositionList);
 
-        ProjectMemberAuth projectMemberAuth = projectMemberAuthRepository.findById(4L).orElseThrow(() -> ProjectMemberAuthCustomException.NOT_FOUND_PROJECT_MEMBER_AUTH);
+        ProjectMemberAuth projectMemberAuth = projectMemberAuthRepository.findById(1L).orElseThrow(() -> ProjectMemberAuthCustomException.NOT_FOUND_PROJECT_MEMBER_AUTH);
         ProjectMember projectMember = ProjectMember.builder()
                 .project(savedProject)
                 .user(tempUser)
@@ -288,7 +288,7 @@ public class BoardService {
      * @param boardId
      */
     public void delete(Long boardId) {
-        Board board = boardRepository.findById(boardId).get();
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> BoardCustomException.NOT_FOUND_BOARD);
         boardRepository.delete(board);
     }
 }
