@@ -22,6 +22,7 @@ import com.example.demo.dto.User.Response.UserProjectResponseDto;
 import com.example.demo.global.exception.customexception.BoardCustomException;
 import com.example.demo.global.exception.customexception.PositionCustomException;
 import com.example.demo.global.exception.customexception.TrustGradeCustomException;
+import com.example.demo.global.exception.customexception.UserCustomException;
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import com.querydsl.core.BooleanBuilder;
@@ -62,6 +63,7 @@ public class BoardService {
     public List<BoardSearchResponseDto> search(BoardSearchRequestDto dto) {
         QBoard board = QBoard.board;
         QProject project = QProject.project;
+        QBoardPosition boardPosition = QBoardPosition.boardPosition;
         QUser user = QUser.user;
 
         BooleanBuilder builder = new BooleanBuilder();
@@ -73,20 +75,21 @@ public class BoardService {
 
         if (dto.getPositionIds().size() > 0) {
 
-            List<Position> positions = new ArrayList<>();
+            List<Position> positionList = new ArrayList<>();
             for(Long positionId : dto.getPositionIds()){
                 Position position = positionRepository.findById(positionId).orElseThrow(() -> PositionCustomException.NOT_FOUND_POSITION);
-                positions.add(position);
+                positionList.add(position);
             }
 
-            builder.or(containsPositionIds(positions));
+            builder.or(boardPosition.position.in(positionList));
         }
 
-        List<Board> boards =
-                queryFactory
+        List<Board> boards = queryFactory
                         .select(board)
                         .from(board)
                         .leftJoin(board.project, project)
+                        .fetchJoin()
+                        .leftJoin(board.positions, boardPosition)
                         .fetchJoin()
                         .where(builder)
                         .fetch();
@@ -99,21 +102,6 @@ public class BoardService {
 
         return boardSearchResponseDtos;
     }
-
-    public BooleanExpression containsPositionIds(List<Position> positionIds) {
-        QBoardPosition qBoardPosition = boardPosition;
-        Long count = queryFactory
-                        .select(qBoardPosition.count())
-                        .from(qBoardPosition)
-                        .where(qBoardPosition.position.in(positionIds))
-                        .fetchFirst();
-
-        if (count > 0) {
-            return Expressions.asBoolean(true);
-        } else {
-            return Expressions.asBoolean(false);
-        }
-    }
     
     /**
      * 게시글, 프로젝트 생성
@@ -124,7 +112,7 @@ public class BoardService {
     public BoardProjectCreateResponseDto create(BoardProjectCreateRequestDto dto) {
         User tempUser = userRepository
                         .findById(1L)
-                        .orElseThrow(() -> BoardCustomException.NOT_FOUND_BOARD); // 나중에 Security로 고쳐야 함.
+                        .orElseThrow(() -> UserCustomException.NOT_FOUND_USER); // 나중에 Security로 고쳐야 함.
 
 
         TrustGrade trustGrade = trustGradeRepository.findById(dto.getProject().getProjectTrustId()).orElseThrow(() -> TrustGradeCustomException.NOT_FOUND_TRUST_GRADE);
