@@ -142,7 +142,7 @@ public class ProjectService {
         projectMemberRepository.save(projectMember);
     }
 
-    public void withdrawl(Long projectId){
+    public void withdrawlSendAlert(Long projectId){
         Project project = projectRepository.findById(projectId).orElseThrow(() -> ProjectCustomException.NOT_FOUND_PROJECT);
         User user = userRepository.findById(1L).orElseThrow(() -> UserCustomException.NOT_FOUND_USER);
 

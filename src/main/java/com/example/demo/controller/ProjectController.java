@@ -41,7 +41,7 @@ public class ProjectController {
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
     }
 
-    @PostMapping("/{projectId}/confirm")
+    @PostMapping("/{projectId}/participate/confirm")
     public ResponseEntity<ResponseDto<?>> confirm(@PathVariable("projectId") Long projectId, @RequestBody ProjectConfirmRequestDto projectConfirmRequestDto){
         projectService.confirm(projectId, projectConfirmRequestDto);
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
@@ -49,7 +49,7 @@ public class ProjectController {
 
    @PostMapping("/{projectId}/withdrawl")
    public ResponseEntity<ResponseDto<?>> withdrawl(@PathVariable("projectId") Long projectId){
-        projectService.withdrawl(projectId);
+        projectService.withdrawlSendAlert(projectId);
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
    }
 }
