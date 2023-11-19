@@ -1,6 +1,47 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.Work.Request.WorkCreateRequestDto;
+import com.example.demo.global.exception.customexception.MilestoneCustomException;
+import com.example.demo.global.exception.customexception.ProjectCustomException;
+import com.example.demo.global.exception.customexception.ProjectMemberCustomException;
+import com.example.demo.global.exception.customexception.UserCustomException;
+import com.example.demo.model.*;
+import com.example.demo.repository.*;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-public class WorkService {}
+@AllArgsConstructor
+public class WorkService {
+    private final WorkRepository workRepository;
+    private final ProjectRepository projectRepository;
+    private final UserRepository userRepository;
+    private final MileStoneRepository mileStoneRepository;
+    private final ProjectMemberRepository projectMemberRepository;
+    /**
+     * 프로젝트 내 업무 생성
+     * TODO : 유저 jwt token으로 받아와서 넣어주기
+     * @param projectId
+     * @param milestoneId
+     */
+    public void create(Long projectId, Long milestoneId, WorkCreateRequestDto workCreateRequestDto){
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> ProjectCustomException.NOT_FOUND_PROJECT);
+        Milestone milestone = mileStoneRepository.findById(milestoneId).orElseThrow(() -> MilestoneCustomException.NOT_FOUND_MILESTONE);
+        User user = userRepository.findById(workCreateRequestDto.getAssignedUserId()).orElseThrow(() -> UserCustomException.NOT_FOUND_USER);
+        ProjectMember projectMember = projectMemberRepository.findProjectMemberByProjectAndUser(project, user).orElseThrow(() -> ProjectMemberCustomException.NOT_FOUND_PROJECT_MEMBER);
+
+
+        Work work = Work.builder()
+                .project(project)
+                .milestone(milestone)
+                .assignedUserId(user)
+                .lastModifiedMember(projectMember)
+                .content(workCreateRequestDto.getContent())
+                .expireStatus(false)
+                .completionStatus(false)
+                .startDate(workCreateRequestDto.getStartDate())
+                .endDate(workCreateRequestDto.getEndDate())
+                .build();
+        workRepository.save(work);
+    }
+}
