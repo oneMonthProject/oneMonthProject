@@ -11,12 +11,14 @@ import com.example.demo.repository.MileStoneRepository;
 import com.example.demo.repository.ProjectRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class MilestoneService {
     private final MileStoneRepository mileStoneRepository;
     private final ProjectRepository projectRepository;
@@ -46,6 +48,7 @@ public class MilestoneService {
         return MilestoneCreateResponseDto.of(savedMilestone);
     }
 
+    @Transactional(readOnly = true)
     public List<MilestoneReadResponseDto> getAll(Long projectId){
         Project project = projectRepository.findById(projectId).orElseThrow(() -> ProjectCustomException.NOT_FOUND_PROJECT);
         List<Milestone> milestonesByProject = mileStoneRepository.findMilestonesByProject(project).orElseThrow(() -> MilestoneCustomException.NOT_FOUND_MILESTONE);
@@ -56,5 +59,12 @@ public class MilestoneService {
         }
 
         return milestoneReadResponseDtos;
+    }
+
+    @Transactional(readOnly = true)
+    public MilestoneReadResponseDto getOne(Long mileStoneId){
+        Milestone milestone = mileStoneRepository.findById(mileStoneId).orElseThrow(() -> MilestoneCustomException.NOT_FOUND_MILESTONE);
+
+        return MilestoneReadResponseDto.of(milestone);
     }
 }
