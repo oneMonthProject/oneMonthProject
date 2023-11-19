@@ -164,13 +164,9 @@ public class ProjectService {
                         .orElseThrow(() -> ProjectCustomException.NOT_FOUND_PROJECT);
         User user =
                 userRepository.findById(1L).orElseThrow(() -> UserCustomException.NOT_FOUND_USER);
-        ProjectMemberAuth projectMemberAuth =
-                projectMemberAuthRepository
-                        .findById(projectConfirmRequestDto.getProjectMemberAuthId())
-                        .orElseThrow(
-                                () ->
-                                        ProjectMemberAuthCustomException
-                                                .NOT_FOUND_PROJECT_MEMBER_AUTH);
+
+        ProjectMemberAuth projectMemberAuth = projectMemberAuthRepository.findTopByOrderByIdDesc().orElseThrow(() -> ProjectMemberAuthCustomException.NOT_FOUND_PROJECT_MEMBER_AUTH);
+
         Position position =
                 positionRepository
                         .findById(projectConfirmRequestDto.getPositionId())
