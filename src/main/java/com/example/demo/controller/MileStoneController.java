@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.Common.ResponseDto;
 import com.example.demo.dto.Milestone.Request.MileStoneUpdateRequestDto;
 import com.example.demo.dto.Milestone.Request.MilestoneCreateRequestDto;
+import com.example.demo.dto.Milestone.Request.MilestoneUpdateContentRequestDto;
 import com.example.demo.dto.Milestone.Response.MilestoneCreateResponseDto;
 import com.example.demo.dto.Milestone.Response.MilestoneReadResponseDto;
 import com.example.demo.service.MilestoneService;
@@ -46,6 +47,12 @@ public class MileStoneController {
     @DeleteMapping("/api/milestone/{milestoneId}")
     public ResponseEntity<ResponseDto<?>> delete(@PathVariable("milestoneId") Long mileStoneId){
         milestoneService.delete(mileStoneId);
+        return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
+    }
+
+    @PatchMapping("/api/milestone/{milestoneId}")
+    public ResponseEntity<ResponseDto<?>> updateDate(@PathVariable("milestoneId") Long mileStoneId, MilestoneUpdateContentRequestDto milestoneUpdateContentRequestDto){
+        milestoneService.updateContent(mileStoneId, milestoneUpdateContentRequestDto);
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
     }
 }

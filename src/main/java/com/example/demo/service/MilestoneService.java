@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.Milestone.Request.MileStoneUpdateRequestDto;
 import com.example.demo.dto.Milestone.Request.MilestoneCreateRequestDto;
+import com.example.demo.dto.Milestone.Request.MilestoneUpdateContentRequestDto;
 import com.example.demo.dto.Milestone.Response.MilestoneCreateResponseDto;
 import com.example.demo.dto.Milestone.Response.MilestoneReadResponseDto;
 import com.example.demo.global.exception.customexception.MilestoneCustomException;
@@ -92,5 +93,19 @@ public class MilestoneService {
     public void delete(Long milestoneId){
         Milestone milestone = mileStoneRepository.findById(milestoneId).orElseThrow(() -> MilestoneCustomException.NOT_FOUND_MILESTONE);
         mileStoneRepository.delete(milestone);
+    }
+
+    public void updateContent(Long milestoneId, MilestoneUpdateContentRequestDto milestoneUpdateContentRequestDto){
+        Milestone milestone = mileStoneRepository.findById(milestoneId).orElseThrow(() -> MilestoneCustomException.NOT_FOUND_MILESTONE);
+        milestone = Milestone.builder()
+                .project(milestone.getProject())
+                .content(milestoneUpdateContentRequestDto.getContent())
+                .startDate(milestone.getStartDate())
+                .endDate(milestone.getEndDate())
+                .expireStatus(milestone.isExpireStatus())
+                .completeStatus(milestone.isCompleteStatus())
+                .build();
+
+        mileStoneRepository.save(milestone);
     }
 }
