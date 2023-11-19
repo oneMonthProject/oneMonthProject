@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class BoardSearchRequestDto {
-    private List<TechnologyStack> technologyIds;
+    private List<Long> technologyIds;
     private String keyWord;
-    private List<Position> positionIds;
+    private List<Long> positionIds;
 }
