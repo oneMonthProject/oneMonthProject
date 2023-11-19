@@ -35,7 +35,7 @@ public class Board extends BaseTimeEntity {
 
     private String contact;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<BoardPosition> positions = new ArrayList<>();
 
     @Builder
