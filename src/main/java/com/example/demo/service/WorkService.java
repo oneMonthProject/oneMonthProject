@@ -127,6 +127,13 @@ public class WorkService {
         workRepository.save(work);
     }
 
+    /**
+     * 업무 완료 여부 수정
+     * TODO : 마지막 변경자 바꿔줘야 함.
+     * @param workId
+     * @param workUpdateCompleteStatusRequestDto
+     */
+
     public void updateCompleteStatus(Long workId, WorkUpdateCompleteStatusRequestDto workUpdateCompleteStatusRequestDto) {
         Work work = workRepository.findById(workId).orElseThrow(() -> WorkCustomException.NOT_FOUND_WORK);
         User user = userRepository.findById(1L).orElseThrow(() -> UserCustomException.NOT_FOUND_USER);
