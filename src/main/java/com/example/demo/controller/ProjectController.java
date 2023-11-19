@@ -46,4 +46,10 @@ public class ProjectController {
         projectService.confirm(projectId, projectConfirmRequestDto);
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
     }
+
+   @PostMapping("/{projectId}/withdrawl")
+   public ResponseEntity<ResponseDto<?>> withdrawl(@PathVariable("projectId") Long projectId){
+        projectService.withdrawl(projectId);
+        return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
+   }
 }

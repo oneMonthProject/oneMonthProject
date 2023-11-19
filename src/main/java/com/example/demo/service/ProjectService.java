@@ -141,4 +141,19 @@ public class ProjectService {
 
         projectMemberRepository.save(projectMember);
     }
+
+    public void withdrawl(Long projectId){
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> ProjectCustomException.NOT_FOUND_PROJECT);
+        User user = userRepository.findById(1L).orElseThrow(() -> UserCustomException.NOT_FOUND_USER);
+
+        Alert alert = Alert.builder()
+                .project(project)
+                .user(user)
+                .content("프로젝트 탈퇴")
+                .type(AlertType.WITHDRWAL)
+                .checked_YN(false)
+                .build();
+
+        alertRepository.save(alert);
+    }
 }
