@@ -5,6 +5,7 @@ import static com.example.demo.model.QBoard.board;
 import static com.example.demo.model.QBoardPosition.boardPosition;
 import static com.example.demo.model.QProject.project;
 
+import com.example.demo.constant.ProjectMemberStatus;
 import com.example.demo.dto.User.Response.UserBoardDetailResponseDto;
 import com.example.demo.dto.User.Response.UserProjectResponseDto;
 import com.example.demo.dto.board.Request.BoardSearchRequestDto;
@@ -19,37 +20,39 @@ import com.example.demo.dto.project.Response.ProjectCreateResponseDto;
 import com.example.demo.dto.project.Response.ProjectDetailResponseDto;
 import com.example.demo.dto.project.Response.ProjectUpdateResponseDto;
 import com.example.demo.dto.trustgrade.TrustGradeDto;
-import com.example.demo.global.exception.customexception.BoardCustomException;
-import com.example.demo.global.exception.customexception.PositionCustomException;
-import com.example.demo.global.exception.customexception.TrustGradeCustomException;
-import com.example.demo.global.exception.customexception.UserCustomException;
+import com.example.demo.global.exception.customexception.*;
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.ArrayList;
 import java.util.List;
+
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Service
+@AllArgsConstructor
 public class BoardService {
 
-    @Autowired PositionRepository positionRepository;
+    private final PositionRepository positionRepository;
 
-    @Autowired BoardRepository boardRepository;
+    private final BoardRepository boardRepository;
 
-    @Autowired UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
 
-    @Autowired BoardPositionRepository boardPositionRepository;
+    private final BoardPositionRepository boardPositionRepository;
 
-    @Autowired private JPAQueryFactory queryFactory;
+    private final JPAQueryFactory queryFactory;
 
-    @Autowired TrustGradeRepository trustGradeRepository;
+    private final TrustGradeRepository trustGradeRepository;
+    private final ProjectMemberAuthRepository projectMemberAuthRepository;
+    private final ProjectMemberRepository projectMemberRepository;
 
     /**
      * 게시글 목록 검색
@@ -104,8 +107,7 @@ public class BoardService {
     }
 
     /**
-     * 게시글, 프로젝트 생성
-     *
+     * 게시글, 프로젝트 생성 , 프로젝트 멤버 추가
      * @param dto
      * @return
      */
@@ -159,6 +161,17 @@ public class BoardService {
             boardPositionRepository.save(boardPosition);
         }
         savedBoard.setPositions(boardPositionList);
+
+        ProjectMemberAuth projectMemberAuth = projectMemberAuthRepository.findById(4L).orElseThrow(() -> ProjectMemberAuthCustomException.NOT_FOUND_PROJECT_MEMBER_AUTH);
+        ProjectMember projectMember = ProjectMember.builder()
+                .project(savedProject)
+                .user(tempUser)
+                .projectMemberAuth(projectMemberAuth)
+                .status(ProjectMemberStatus.PARTICIPATING)
+                .position(savedProject.getUser().getPosition())
+                .build();
+
+        projectMemberRepository.save(projectMember);
 
         // response값 생성
         BoardCreateResponseDto boardCreateResponseDto = BoardCreateResponseDto.of(board);
