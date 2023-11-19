@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/project")
 @AllArgsConstructor
@@ -34,7 +36,7 @@ public class ProjectController {
     @PostMapping("/{projectId}/participate")
     public ResponseEntity<ResponseDto<?>> participate(
             @PathVariable("projectId") Long projectId,
-            @RequestBody ProjectParticipateRequestDto projectParticipateRequestDto) {
+            @RequestBody @Valid ProjectParticipateRequestDto projectParticipateRequestDto) {
         projectService.sendParticipateAlert(projectId, projectParticipateRequestDto);
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
     }
@@ -42,7 +44,7 @@ public class ProjectController {
     @PostMapping("/{projectId}/participate/confirm")
     public ResponseEntity<ResponseDto<?>> confirm(
             @PathVariable("projectId") Long projectId,
-            @RequestBody ProjectConfirmRequestDto projectConfirmRequestDto) {
+            @RequestBody @Valid ProjectConfirmRequestDto projectConfirmRequestDto) {
         projectService.confirm(projectId, projectConfirmRequestDto);
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
     }
