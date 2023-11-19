@@ -139,11 +139,15 @@ public class ProjectService {
                         .orElseThrow(() -> ProjectCustomException.NOT_FOUND_PROJECT);
         User user =
                 userRepository.findById(1L).orElseThrow(() -> UserCustomException.NOT_FOUND_USER);
+
+        Position position = positionRepository.findById(projectParticipateRequestDto.getPositionId()).orElseThrow(() -> PositionCustomException.NOT_FOUND_POSITION);
+
         Alert alert =
                 Alert.builder()
                         .project(project)
                         .user(user)
                         .content("프로젝트 지원했습니다.")
+                        .position(position)
                         .type(AlertType.RECRUIT)
                         .checked_YN(false)
                         .build();
