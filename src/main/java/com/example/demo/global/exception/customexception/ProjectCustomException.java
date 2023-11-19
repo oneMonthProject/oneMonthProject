@@ -1,6 +1,5 @@
 package com.example.demo.global.exception.customexception;
 
-import com.example.demo.global.exception.errorcode.BoardErrorCode;
 import com.example.demo.global.exception.errorcode.ProjectErrorCode;
 
 public class ProjectCustomException extends CustomException {
