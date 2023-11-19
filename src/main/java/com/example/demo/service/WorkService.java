@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.Work.Request.WorkCreateRequestDto;
+import com.example.demo.dto.Work.Request.WorkUpdateCompleteStatusRequestDto;
 import com.example.demo.dto.Work.Request.WorkUpdateContentRequestDto;
 import com.example.demo.dto.Work.Request.WorkUpdateRequestDto;
 import com.example.demo.dto.Work.Response.WorkReadResponseDto;
@@ -119,6 +120,26 @@ public class WorkService {
                 .content(workUpdateContentRequestDto.getContent())
                 .expireStatus(work.isExpireStatus())
                 .completeStatus(work.isCompleteStatus())
+                .startDate(work.getStartDate())
+                .endDate(work.getEndDate())
+                .build();
+
+        workRepository.save(work);
+    }
+
+    public void updateCompleteStatus(Long workId, WorkUpdateCompleteStatusRequestDto workUpdateCompleteStatusRequestDto) {
+        Work work = workRepository.findById(workId).orElseThrow(() -> WorkCustomException.NOT_FOUND_WORK);
+        User user = userRepository.findById(1L).orElseThrow(() -> UserCustomException.NOT_FOUND_USER);
+        ProjectMember projectMember = projectMemberRepository.findProjectMemberByProjectAndUser(work.getProject(), user).orElseThrow(() -> ProjectMemberCustomException.NOT_FOUND_PROJECT_MEMBER);
+
+        work = Work.builder()
+                .project(work.getProject())
+                .milestone(work.getMilestone())
+                .assignedUserId(work.getAssignedUserId())
+                .lastModifiedMember(projectMember)
+                .content(work.getContent())
+                .expireStatus(work.isExpireStatus())
+                .completeStatus(workUpdateCompleteStatusRequestDto.getCompleteStatus())
                 .startDate(work.getStartDate())
                 .endDate(work.getEndDate())
                 .build();
