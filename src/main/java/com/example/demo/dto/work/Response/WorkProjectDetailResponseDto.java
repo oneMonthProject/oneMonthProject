@@ -29,7 +29,7 @@ public class WorkProjectDetailResponseDto {
                 .lastModifiedMember(work.getLastModifiedMember())
                 .workContent(work.getContent())
                 .expireStatus(work.isExpireStatus())
-                .completeStatus(work.isCompletionStatus())
+                .completeStatus(work.isCompleteStatus())
                 .startDate(work.getStartDate())
                 .endDate(work.getEndDate())
                 .createDate(work.getCreateDate())
