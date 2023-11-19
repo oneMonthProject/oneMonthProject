@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.Milestone.Request.MileStoneUpdateRequestDto;
 import com.example.demo.dto.Milestone.Request.MilestoneCreateRequestDto;
 import com.example.demo.dto.Milestone.Response.MilestoneCreateResponseDto;
 import com.example.demo.dto.Milestone.Response.MilestoneReadResponseDto;
@@ -62,9 +63,29 @@ public class MilestoneService {
     }
 
     @Transactional(readOnly = true)
-    public MilestoneReadResponseDto getOne(Long mileStoneId){
-        Milestone milestone = mileStoneRepository.findById(mileStoneId).orElseThrow(() -> MilestoneCustomException.NOT_FOUND_MILESTONE);
+    public MilestoneReadResponseDto getOne(Long milestoneId){
+        Milestone milestone = mileStoneRepository.findById(milestoneId).orElseThrow(() -> MilestoneCustomException.NOT_FOUND_MILESTONE);
 
         return MilestoneReadResponseDto.of(milestone);
+    }
+
+    /**
+     * 프로젝트 내 마일스톤 수정(*매니저만 가능)
+     * TODO : 매니저만 수정 가능하도록 변경
+     * @param milestoneId
+     * @param mileStoneUpdateRequestDto
+     */
+    public void update(Long milestoneId, MileStoneUpdateRequestDto mileStoneUpdateRequestDto){
+        Milestone milestone = mileStoneRepository.findById(milestoneId).orElseThrow(() -> MilestoneCustomException.NOT_FOUND_MILESTONE);
+        milestone = Milestone.builder()
+                .project(milestone.getProject())
+                .content(mileStoneUpdateRequestDto.getContent())
+                .startDate(mileStoneUpdateRequestDto.getStartDate())
+                .endDate(mileStoneUpdateRequestDto.getEndDate())
+                .expireStatus(milestone.isExpireStatus())
+                .completeStatus(milestone.isCompleteStatus())
+                .build();
+
+        mileStoneRepository.save(milestone);
     }
 }
