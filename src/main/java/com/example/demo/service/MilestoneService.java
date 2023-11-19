@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.dto.Milestone.Request.MilestoneCreateRequestDto;
 import com.example.demo.dto.Milestone.Response.MilestoneCreateResponseDto;
+import com.example.demo.dto.Milestone.Response.MilestoneReadResponseDto;
+import com.example.demo.global.exception.customexception.MilestoneCustomException;
 import com.example.demo.global.exception.customexception.ProjectCustomException;
 import com.example.demo.model.Milestone;
 import com.example.demo.model.Project;
@@ -9,6 +11,9 @@ import com.example.demo.repository.MileStoneRepository;
 import com.example.demo.repository.ProjectRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -39,5 +44,17 @@ public class MilestoneService {
         Milestone savedMilestone = mileStoneRepository.save(mileStone);
 
         return MilestoneCreateResponseDto.of(savedMilestone);
+    }
+
+    public List<MilestoneReadResponseDto> getAll(Long projectId){
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> ProjectCustomException.NOT_FOUND_PROJECT);
+        List<Milestone> milestonesByProject = mileStoneRepository.findMilestonesByProject(project).orElseThrow(() -> MilestoneCustomException.NOT_FOUND_MILESTONE);
+        List<MilestoneReadResponseDto> milestoneReadResponseDtos = new ArrayList<>();
+        for (Milestone milestone : milestonesByProject) {
+            MilestoneReadResponseDto milestoneReadResponseDto = MilestoneReadResponseDto.of(milestone);
+            milestoneReadResponseDtos.add(milestoneReadResponseDto);
+        }
+
+        return milestoneReadResponseDtos;
     }
 }
