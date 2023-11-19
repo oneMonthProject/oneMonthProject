@@ -87,12 +87,10 @@ public class BoardService {
 
         List<Board> boards =
                 queryFactory
-                        .select(board)
+                        .selectDistinct(board)
                         .from(board)
-                        .leftJoin(board.project, project)
-                        .fetchJoin()
-                        .leftJoin(board.positions, boardPosition)
-                        .fetchJoin()
+                        .join(board.project, project)
+                        .join(board.positions, boardPosition).fetchJoin()
                         .where(builder)
                         .fetch();
 
