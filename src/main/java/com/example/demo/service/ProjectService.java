@@ -142,6 +142,11 @@ public class ProjectService {
         projectMemberRepository.save(projectMember);
     }
 
+    /**
+     * 프로젝트 종료하기
+     * @param projectId
+     */
+    
     public void end(Long projectId){
         Project project = projectRepository.findById(projectId).orElseThrow(
                 () -> ProjectCustomException.NOT_FOUND_PROJECT
