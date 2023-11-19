@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class UpdateWorkAssignUserRequestDto {
+public class WorkUpdateAssignUserRequestDto {
     private Long assignedUserId;
 }

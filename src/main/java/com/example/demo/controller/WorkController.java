@@ -60,8 +60,8 @@ public class WorkController {
     }
 
     @PatchMapping("/api/work/{workId}/assgin")
-    public ResponseEntity<ResponseDto<?>> updateAssign(@PathVariable("workId") Long workId,  UpdateWorkAssignUserRequestDto updateWorkAssignUserRequestDto){
-        workService.updateAssignUser(workId, updateWorkAssignUserRequestDto);
+    public ResponseEntity<ResponseDto<?>> updateAssign(@PathVariable("workId") Long workId,  WorkUpdateAssignUserRequestDto workUpdateAssignUserRequestDto){
+        workService.updateAssignUser(workId, workUpdateAssignUserRequestDto);
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
     }
 }

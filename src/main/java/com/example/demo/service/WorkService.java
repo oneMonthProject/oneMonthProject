@@ -151,9 +151,9 @@ public class WorkService {
         workRepository.save(work);
     }
 
-    public void updateAssignUser(Long workId , UpdateWorkAssignUserRequestDto updateWorkAssignUserRequestDto){
+    public void updateAssignUser(Long workId , WorkUpdateAssignUserRequestDto workUpdateAssignUserRequestDto){
         Work work = workRepository.findById(workId).orElseThrow(() -> WorkCustomException.NOT_FOUND_WORK);
-        User user = userRepository.findById(updateWorkAssignUserRequestDto.getAssignedUserId()).orElseThrow(() -> UserCustomException.NOT_FOUND_USER);
+        User user = userRepository.findById(workUpdateAssignUserRequestDto.getAssignedUserId()).orElseThrow(() -> UserCustomException.NOT_FOUND_USER);
         ProjectMember projectMember = projectMemberRepository.findProjectMemberByProjectAndUser(work.getProject(), user).orElseThrow(() -> ProjectMemberCustomException.NOT_FOUND_PROJECT_MEMBER);
 
         work = Work.builder()
