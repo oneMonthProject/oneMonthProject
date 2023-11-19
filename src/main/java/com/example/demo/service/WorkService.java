@@ -1,17 +1,20 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.Work.Request.WorkCreateRequestDto;
-import com.example.demo.global.exception.customexception.MilestoneCustomException;
-import com.example.demo.global.exception.customexception.ProjectCustomException;
-import com.example.demo.global.exception.customexception.ProjectMemberCustomException;
-import com.example.demo.global.exception.customexception.UserCustomException;
+import com.example.demo.dto.Work.Response.WorkReadResponseDto;
+import com.example.demo.global.exception.customexception.*;
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class WorkService {
     private final WorkRepository workRepository;
     private final ProjectRepository projectRepository;
@@ -44,4 +47,19 @@ public class WorkService {
                 .build();
         workRepository.save(work);
     }
+
+    @Transactional(readOnly = true)
+    public List<WorkReadResponseDto> getAllByMilestone(Long projectId, Long milestoneId){
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> ProjectCustomException.NOT_FOUND_PROJECT);
+        Milestone milestone = mileStoneRepository.findById(milestoneId).orElseThrow(() -> MilestoneCustomException.NOT_FOUND_MILESTONE);
+        List<Work> works = workRepository.findWorksByProjectAndMilestone(project, milestone).orElseThrow(() -> WorkCustomException.NOT_FOUND_WORK);
+        List<WorkReadResponseDto> workReadResponseDtos = new ArrayList<>();
+        for (Work work : works) {
+            WorkReadResponseDto workReadResponseDto = WorkReadResponseDto.of(work);
+            workReadResponseDtos.add(workReadResponseDto);
+        }
+
+        return workReadResponseDtos;
+    }
+
 }
