@@ -1,6 +1,5 @@
 package com.example.demo.global.exception.customexception;
 
-import com.example.demo.global.exception.errorcode.UserErrorCode;
 import com.example.demo.global.exception.errorcode.WorkErrorCode;
 
 public class WorkCustomException extends CustomException {

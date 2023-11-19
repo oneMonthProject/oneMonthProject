@@ -1,7 +1,5 @@
 package com.example.demo.dto.board.Request;
 
-import com.example.demo.model.Position;
-import com.example.demo.model.TechnologyStack;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

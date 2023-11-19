@@ -1,13 +1,12 @@
 package com.example.demo.dto.board.Response;
 
-import com.example.demo.dto.boardposition.Response.BoardPositionDetailResponseDto;
 import com.example.demo.dto.User.Response.UserBoardDetailResponseDto;
+import com.example.demo.dto.boardposition.Response.BoardPositionDetailResponseDto;
 import com.example.demo.model.Board;
-import lombok.Builder;
-import lombok.Getter;
-
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.Builder;
+import lombok.Getter;
 
 @Getter
 @Builder
@@ -23,10 +22,10 @@ public class BoardDetailResponseDto {
     private LocalDateTime updateDate;
     private List<BoardPositionDetailResponseDto> boardPositions;
 
-    public static BoardDetailResponseDto of(Board board,
-                                            UserBoardDetailResponseDto userBoardDetailResponseDto,
-                                            List<BoardPositionDetailResponseDto> boardPositionDetailResponseDtos
-    ) {
+    public static BoardDetailResponseDto of(
+            Board board,
+            UserBoardDetailResponseDto userBoardDetailResponseDto,
+            List<BoardPositionDetailResponseDto> boardPositionDetailResponseDtos) {
         return BoardDetailResponseDto.builder()
                 .boardId(board.getId())
                 .title(board.getTitle())

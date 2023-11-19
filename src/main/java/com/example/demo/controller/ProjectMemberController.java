@@ -18,19 +18,22 @@ public class ProjectMemberController {
     private final ProjectMemberService projectMemberService;
 
     @PostMapping("/{projectMemberId}/withdrawl")
-    public ResponseEntity<ResponseDto<?>> withdrawl(@PathVariable("projectMemberId") Long projectMemberId){
+    public ResponseEntity<ResponseDto<?>> withdrawl(
+            @PathVariable("projectMemberId") Long projectMemberId) {
         projectMemberService.sendWithdrawlAlert(projectMemberId);
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
     }
 
     @PostMapping("/{projectMemberId}/withdrawl/confirm")
-    public ResponseEntity<ResponseDto<?>> withdrawlConfirm(@PathVariable("projectMemberId") Long projectMemberId){
+    public ResponseEntity<ResponseDto<?>> withdrawlConfirm(
+            @PathVariable("projectMemberId") Long projectMemberId) {
         projectMemberService.withdrawlConfirm(projectMemberId);
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
     }
 
     @PostMapping("/{projectMemberId}/withdrawl/force")
-    public ResponseEntity<ResponseDto<?>> withdrawlForce(@PathVariable("projectMemberId") Long projectMemberId){
+    public ResponseEntity<ResponseDto<?>> withdrawlForce(
+            @PathVariable("projectMemberId") Long projectMemberId) {
         projectMemberService.withdrawlForce(projectMemberId);
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
     }

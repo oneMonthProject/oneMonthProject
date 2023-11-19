@@ -1,14 +1,13 @@
 package com.example.demo.dto.ProjectMember.Response;
 
 import com.example.demo.constant.ProjectMemberStatus;
+import com.example.demo.dto.User.Response.UserProjectDetailResponseDto;
 import com.example.demo.dto.position.Response.PositionResponseDto;
 import com.example.demo.dto.projectmemberauth.Response.ProjectMemberAuthResponseDto;
-import com.example.demo.dto.User.Response.UserProjectDetailResponseDto;
 import com.example.demo.model.ProjectMember;
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -22,11 +21,10 @@ public class ProjectMemberDetailResponseDto {
     private LocalDateTime updateDate;
 
     public static ProjectMemberDetailResponseDto of(
-             ProjectMember projectMember,
-             UserProjectDetailResponseDto user,
-             ProjectMemberAuthResponseDto projectMemberAuth,
-             PositionResponseDto position
-    ) {
+            ProjectMember projectMember,
+            UserProjectDetailResponseDto user,
+            ProjectMemberAuthResponseDto projectMemberAuth,
+            PositionResponseDto position) {
         return ProjectMemberDetailResponseDto.builder()
                 .projectMemberId(projectMember.getId())
                 .user(user)

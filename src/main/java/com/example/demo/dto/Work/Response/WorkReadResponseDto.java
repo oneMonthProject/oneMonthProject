@@ -1,11 +1,9 @@
 package com.example.demo.dto.work.Response;
 
 import com.example.demo.model.Work;
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
-
 
 @Getter
 @Builder

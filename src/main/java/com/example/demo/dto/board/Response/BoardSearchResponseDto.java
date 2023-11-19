@@ -1,7 +1,7 @@
 package com.example.demo.dto.board.Response;
 
-import com.example.demo.dto.project.Response.ProjectSearchResponseDto;
 import com.example.demo.dto.User.Response.UserSearchResponseDto;
+import com.example.demo.dto.project.Response.ProjectSearchResponseDto;
 import com.example.demo.model.Board;
 import java.time.LocalDateTime;
 import lombok.Builder;

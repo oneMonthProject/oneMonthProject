@@ -2,15 +2,14 @@ package com.example.demo.dto.project.Response;
 
 import com.example.demo.constant.ProjectStatus;
 import com.example.demo.dto.ProjectMember.Response.ProjectMemberDetailResponseDto;
-import com.example.demo.dto.trustgrade.TrustGradeDto;
 import com.example.demo.dto.User.Response.UserProjectResponseDto;
+import com.example.demo.dto.trustgrade.TrustGradeDto;
 import com.example.demo.dto.work.Response.WorkProjectDetailResponseDto;
 import com.example.demo.model.Project;
-import lombok.Builder;
-import lombok.Getter;
-
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.Builder;
+import lombok.Getter;
 
 @Getter
 @Builder
@@ -34,9 +33,8 @@ public class ProjectSpecificDetailResponseDto {
             TrustGradeDto trustGradeDto,
             UserProjectResponseDto userProjectResponseDto,
             List<ProjectMemberDetailResponseDto> projectMemberDetailResponseDtos,
-            List<WorkProjectDetailResponseDto> workProjectDetailResponseDto
+            List<WorkProjectDetailResponseDto> workProjectDetailResponseDto) {
 
-    ) {
         return ProjectSpecificDetailResponseDto.builder()
                 .projectId(project.getId())
                 .name(project.getName())

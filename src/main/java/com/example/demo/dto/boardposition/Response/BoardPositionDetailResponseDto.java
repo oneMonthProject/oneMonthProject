@@ -11,7 +11,8 @@ public class BoardPositionDetailResponseDto {
     private Long boardPositionId;
     private PositionResponseDto position;
 
-    public static BoardPositionDetailResponseDto of(BoardPosition boardPosition, PositionResponseDto positionResponseDto) {
+    public static BoardPositionDetailResponseDto of(
+            BoardPosition boardPosition, PositionResponseDto positionResponseDto) {
         return BoardPositionDetailResponseDto.builder()
                 .boardPositionId(boardPosition.getId())
                 .position(positionResponseDto)

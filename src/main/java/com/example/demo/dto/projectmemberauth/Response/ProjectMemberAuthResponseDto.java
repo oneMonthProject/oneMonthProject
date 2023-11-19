@@ -12,7 +12,6 @@ public class ProjectMemberAuthResponseDto {
     private boolean milestone_change_YN;
     private boolean work_change_YN;
 
-
     public static ProjectMemberAuthResponseDto of(ProjectMemberAuth projectMemberAuth) {
         return ProjectMemberAuthResponseDto.builder()
                 .projectMemberAuthId(projectMemberAuth.getId())

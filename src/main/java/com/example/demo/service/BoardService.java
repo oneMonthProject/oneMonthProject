@@ -5,6 +5,8 @@ import static com.example.demo.model.QBoard.board;
 import static com.example.demo.model.QBoardPosition.boardPosition;
 import static com.example.demo.model.QProject.project;
 
+import com.example.demo.dto.User.Response.UserBoardDetailResponseDto;
+import com.example.demo.dto.User.Response.UserProjectResponseDto;
 import com.example.demo.dto.board.Request.BoardSearchRequestDto;
 import com.example.demo.dto.board.Response.*;
 import com.example.demo.dto.boardposition.Response.BoardPositionDetailResponseDto;
@@ -17,8 +19,6 @@ import com.example.demo.dto.project.Response.ProjectCreateResponseDto;
 import com.example.demo.dto.project.Response.ProjectDetailResponseDto;
 import com.example.demo.dto.project.Response.ProjectUpdateResponseDto;
 import com.example.demo.dto.trustgrade.TrustGradeDto;
-import com.example.demo.dto.User.Response.UserBoardDetailResponseDto;
-import com.example.demo.dto.User.Response.UserProjectResponseDto;
 import com.example.demo.global.exception.customexception.BoardCustomException;
 import com.example.demo.global.exception.customexception.PositionCustomException;
 import com.example.demo.global.exception.customexception.TrustGradeCustomException;
@@ -26,8 +26,6 @@ import com.example.demo.global.exception.customexception.UserCustomException;
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,15 +74,19 @@ public class BoardService {
         if (dto.getPositionIds().size() > 0) {
 
             List<Position> positionList = new ArrayList<>();
-            for(Long positionId : dto.getPositionIds()){
-                Position position = positionRepository.findById(positionId).orElseThrow(() -> PositionCustomException.NOT_FOUND_POSITION);
+            for (Long positionId : dto.getPositionIds()) {
+                Position position =
+                        positionRepository
+                                .findById(positionId)
+                                .orElseThrow(() -> PositionCustomException.NOT_FOUND_POSITION);
                 positionList.add(position);
             }
 
             builder.or(boardPosition.position.in(positionList));
         }
 
-        List<Board> boards = queryFactory
+        List<Board> boards =
+                queryFactory
                         .select(board)
                         .from(board)
                         .leftJoin(board.project, project)
@@ -102,7 +104,7 @@ public class BoardService {
 
         return boardSearchResponseDtos;
     }
-    
+
     /**
      * 게시글, 프로젝트 생성
      *
@@ -110,15 +112,20 @@ public class BoardService {
      * @return
      */
     public BoardProjectCreateResponseDto create(BoardProjectCreateRequestDto dto) {
-        User tempUser = userRepository
+        User tempUser =
+                userRepository
                         .findById(1L)
-                        .orElseThrow(() -> UserCustomException.NOT_FOUND_USER); // 나중에 Security로 고쳐야 함.
+                        .orElseThrow(
+                                () -> UserCustomException.NOT_FOUND_USER); // 나중에 Security로 고쳐야 함.
 
-
-        TrustGrade trustGrade = trustGradeRepository.findById(dto.getProject().getTrustGradeId()).orElseThrow(() -> TrustGradeCustomException.NOT_FOUND_TRUST_GRADE);
+        TrustGrade trustGrade =
+                trustGradeRepository
+                        .findById(dto.getProject().getTrustGradeId())
+                        .orElseThrow(() -> TrustGradeCustomException.NOT_FOUND_TRUST_GRADE);
 
         // project 생성
-        Project project = Project.builder()
+        Project project =
+                Project.builder()
                         .name(dto.getProject().getName())
                         .subject(dto.getProject().getSubject())
                         .trustGrade(trustGrade)
@@ -132,7 +139,8 @@ public class BoardService {
         Project savedProject = projectRepository.save(project);
 
         // board 생성
-        Board board = Board.builder()
+        Board board =
+                Board.builder()
                         .title(dto.getBoard().getTitle())
                         .content(dto.getBoard().getContent())
                         .project(savedProject)
@@ -145,7 +153,10 @@ public class BoardService {
         // boardPosition 생성
         List<BoardPosition> boardPositionList = new ArrayList<>();
         for (Long positionId : dto.getBoard().getPositionIds()) {
-            Position position = positionRepository.findById(positionId).orElseThrow(() -> PositionCustomException.NOT_FOUND_POSITION);
+            Position position =
+                    positionRepository
+                            .findById(positionId)
+                            .orElseThrow(() -> PositionCustomException.NOT_FOUND_POSITION);
             BoardPosition boardPosition = new BoardPosition(savedBoard, position);
             boardPositionRepository.save(boardPosition);
         }
@@ -157,32 +168,45 @@ public class BoardService {
 
         return new BoardProjectCreateResponseDto(boardCreateResponseDto, projectCreateResponseDto);
     }
-    
-    //게시글 상세 조회
+
+    // 게시글 상세 조회
     public BoardTotalDetailResponseDto getDetail(Long boardId) {
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> BoardCustomException.NOT_FOUND_BOARD);
-        UserBoardDetailResponseDto userBoardDetailResponseDto = UserBoardDetailResponseDto.of(board.getUser());
+        Board board =
+                boardRepository
+                        .findById(boardId)
+                        .orElseThrow(() -> BoardCustomException.NOT_FOUND_BOARD);
+        UserBoardDetailResponseDto userBoardDetailResponseDto =
+                UserBoardDetailResponseDto.of(board.getUser());
 
         List<BoardPositionDetailResponseDto> boardPositionDetailResponseDtos = new ArrayList<>();
-        for(BoardPosition boardPosition : board.getPositions()){
-            PositionResponseDto positionResponseDto = PositionResponseDto.of(boardPosition.getPosition());
-            BoardPositionDetailResponseDto boardPositionDetailResponseDto = BoardPositionDetailResponseDto.of(boardPosition, positionResponseDto);
+        for (BoardPosition boardPosition : board.getPositions()) {
+            PositionResponseDto positionResponseDto =
+                    PositionResponseDto.of(boardPosition.getPosition());
+            BoardPositionDetailResponseDto boardPositionDetailResponseDto =
+                    BoardPositionDetailResponseDto.of(boardPosition, positionResponseDto);
             boardPositionDetailResponseDtos.add(boardPositionDetailResponseDto);
         }
-        BoardDetailResponseDto boardDetailResponseDto = BoardDetailResponseDto.of(board, userBoardDetailResponseDto, boardPositionDetailResponseDtos);
+        BoardDetailResponseDto boardDetailResponseDto =
+                BoardDetailResponseDto.of(
+                        board, userBoardDetailResponseDto, boardPositionDetailResponseDtos);
 
-        //ProjectDetailResponseDto 부분
+        // ProjectDetailResponseDto 부분
         TrustGradeDto trustGradeDto = TrustGradeDto.of(board.getProject().getTrustGrade());
-        UserProjectResponseDto userProjectResponseDto = UserProjectResponseDto.of(board.getProject());
-        ProjectDetailResponseDto projectDetailResponseDto = ProjectDetailResponseDto.of(board.getProject(), trustGradeDto, userProjectResponseDto);
-        
-        BoardTotalDetailResponseDto boardTotalDetailResponseDto = BoardTotalDetailResponseDto.of(boardDetailResponseDto,projectDetailResponseDto);
+        UserProjectResponseDto userProjectResponseDto =
+                UserProjectResponseDto.of(board.getProject());
+        ProjectDetailResponseDto projectDetailResponseDto =
+                ProjectDetailResponseDto.of(
+                        board.getProject(), trustGradeDto, userProjectResponseDto);
+
+        BoardTotalDetailResponseDto boardTotalDetailResponseDto =
+                BoardTotalDetailResponseDto.of(boardDetailResponseDto, projectDetailResponseDto);
 
         return boardTotalDetailResponseDto;
     }
 
     /**
      * 게시글, 프로젝트 업데이트
+     *
      * @param dto
      * @return
      */
@@ -190,10 +214,14 @@ public class BoardService {
         Project project = projectRepository.findById(dto.getProject().getProjectId()).get();
         User tempUser = userRepository.findById(1L).get(); // 나중에 Security로 고쳐야 함.
 
-        TrustGrade trustGrade = trustGradeRepository.findById(dto.getProject().getProjectTrustId()).orElseThrow(() -> TrustGradeCustomException.NOT_FOUND_TRUST_GRADE);
+        TrustGrade trustGrade =
+                trustGradeRepository
+                        .findById(dto.getProject().getProjectTrustId())
+                        .orElseThrow(() -> TrustGradeCustomException.NOT_FOUND_TRUST_GRADE);
 
         // project 생성
-        project = Project.builder()
+        project =
+                Project.builder()
                         .name(dto.getProject().getProjectName())
                         .subject(dto.getProject().getProjectSubject())
                         .trustGrade(trustGrade)
@@ -207,9 +235,13 @@ public class BoardService {
         Project savedProject = projectRepository.save(project);
 
         // board 생성
-        Board board = boardRepository.findById(boardId).orElseThrow(() -> BoardCustomException.NOT_FOUND_BOARD);
+        Board board =
+                boardRepository
+                        .findById(boardId)
+                        .orElseThrow(() -> BoardCustomException.NOT_FOUND_BOARD);
 
-        board = Board.builder()
+        board =
+                Board.builder()
                         .title(dto.getBoard().getTitle())
                         .content(dto.getBoard().getContent())
                         .project(board.getProject())
@@ -222,9 +254,12 @@ public class BoardService {
         // position 받아서 다시 보드-포지션 연결
         List<BoardPosition> boardPositionList = new ArrayList<>();
         for (Long positionId : dto.getBoard().getPositions()) {
-            Position position = positionRepository.findById(positionId).orElseThrow(() -> PositionCustomException.NOT_FOUND_POSITION);
+            Position position =
+                    positionRepository
+                            .findById(positionId)
+                            .orElseThrow(() -> PositionCustomException.NOT_FOUND_POSITION);
             BoardPosition boardPosition = new BoardPosition(savedBoard, position);
-            //boardPositionRepository.save(boardPosition);
+            // boardPositionRepository.save(boardPosition);
             boardPositionList.add(boardPosition);
         }
         savedBoard.setPositions(boardPositionList);

@@ -4,11 +4,10 @@ import com.example.demo.constant.ProjectStatus;
 import com.example.demo.dto.ProjectMember.Response.MyProjectMemberResponseDto;
 import com.example.demo.dto.trustgrade.TrustGradeDto;
 import com.example.demo.model.Project;
-import lombok.Builder;
-import lombok.Getter;
-
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.Builder;
+import lombok.Getter;
 
 @Getter
 @Builder
@@ -25,10 +24,10 @@ public class ProjectMeResponseDto {
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
 
-    public static ProjectMeResponseDto of(Project project,
-                                          TrustGradeDto trustGradeDto,
-                                          List<MyProjectMemberResponseDto> myProjectMemberResponseDtos
-    ) {
+    public static ProjectMeResponseDto of(
+            Project project,
+            TrustGradeDto trustGradeDto,
+            List<MyProjectMemberResponseDto> myProjectMemberResponseDtos) {
         return ProjectMeResponseDto.builder()
                 .projectId(project.getId())
                 .name(project.getName())
@@ -43,5 +42,4 @@ public class ProjectMeResponseDto {
                 .updateDate(project.getUpdateDate())
                 .build();
     }
-
 }

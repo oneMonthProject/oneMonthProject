@@ -4,7 +4,6 @@ import com.example.demo.dto.project.Response.ProjectDetailResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 
-
 @Getter
 @Builder
 public class BoardTotalDetailResponseDto {
@@ -13,8 +12,7 @@ public class BoardTotalDetailResponseDto {
 
     public static BoardTotalDetailResponseDto of(
             BoardDetailResponseDto boardDetailResponseDto,
-            ProjectDetailResponseDto projectDetailResponseDto
-    ) {
+            ProjectDetailResponseDto projectDetailResponseDto) {
         return BoardTotalDetailResponseDto.builder()
                 .board(boardDetailResponseDto)
                 .project(projectDetailResponseDto)

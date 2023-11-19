@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/board")
 public class BoardController {
 
-private final BoardService boardService;
+    private final BoardService boardService;
 
     @PostMapping("/search")
     public ResponseEntity<ResponseDto<?>> get(@RequestBody BoardSearchRequestDto dto) {
@@ -29,19 +29,21 @@ private final BoardService boardService;
     }
 
     @GetMapping("/{boardId}")
-    public ResponseEntity<ResponseDto<?>> getDetail(@PathVariable("boardId") Long boardId){
+    public ResponseEntity<ResponseDto<?>> getDetail(@PathVariable("boardId") Long boardId) {
         BoardTotalDetailResponseDto result = boardService.getDetail(boardId);
         return new ResponseEntity<>(new ResponseDto<>("success", result), HttpStatus.OK);
     }
 
     @PostMapping("")
-    public ResponseEntity<ResponseDto<?>> create(@RequestBody BoardProjectCreateRequestDto requestDto) {
+    public ResponseEntity<ResponseDto<?>> create(
+            @RequestBody BoardProjectCreateRequestDto requestDto) {
         BoardProjectCreateResponseDto result = boardService.create(requestDto);
         return new ResponseEntity<>(new ResponseDto<>("success", result), HttpStatus.OK);
     }
 
     @PatchMapping("/{boardId}")
-    public ResponseEntity<ResponseDto<?>> update(@PathVariable("boardId") Long boardId, BoardProjectUpdateRequestDto requestDto) {
+    public ResponseEntity<ResponseDto<?>> update(
+            @PathVariable("boardId") Long boardId, BoardProjectUpdateRequestDto requestDto) {
         BoardProjectUpdateResponseDto result = boardService.update(boardId, requestDto);
         return new ResponseEntity<>(new ResponseDto<>("success", result), HttpStatus.OK);
     }

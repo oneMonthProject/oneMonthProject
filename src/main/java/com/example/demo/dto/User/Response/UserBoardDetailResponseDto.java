@@ -10,6 +10,7 @@ public class UserBoardDetailResponseDto {
     private Long userId;
     private String nickName;
     private String userProfileImgSrc;
+
     public static UserBoardDetailResponseDto of(User user) {
         return UserBoardDetailResponseDto.builder()
                 .userId(user.getId())

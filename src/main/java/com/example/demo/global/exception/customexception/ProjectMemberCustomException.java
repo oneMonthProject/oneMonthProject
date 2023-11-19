@@ -11,4 +11,3 @@ public class ProjectMemberCustomException extends CustomException {
         super(projectMemberErrorCode);
     }
 }
-

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "milestone")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Milestone extends BaseTimeEntity{
+public class Milestone extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
