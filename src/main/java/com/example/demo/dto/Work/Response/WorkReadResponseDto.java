@@ -32,7 +32,7 @@ public class WorkReadResponseDto {
                 .startDate(work.getStartDate())
                 .endDate(work.getEndDate())
                 .expireStatus(work.isExpireStatus())
-                .completeStauts(work.isCompletionStatus())
+                .completeStauts(work.isCompleteStatus())
                 .build();
     }
 }
