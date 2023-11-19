@@ -23,6 +23,6 @@ public enum ProjectMemberAuthErrorCode implements ErrorCode {
 
     @Override
     public String getMessage() {
-        return this.getMessage();
+        return this.message;
     }
 }
