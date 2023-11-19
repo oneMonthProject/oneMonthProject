@@ -37,11 +37,17 @@ public class ProjectService {
     private final PositionRepository positionRepository;
     private final AlertRepository alertRepository;
 
+    /**
+     * 내 프로젝트 목록 조회
+     * TODO : 현재 유저 가져오기.
+     * @return
+     */
+
     @Transactional(readOnly = true)
     public List<ProjectMeResponseDto> getMyProjects() {
         User user =
                 userRepository.findById(1L).orElseThrow(() -> UserCustomException.NOT_FOUND_USER);
-        List<Project> projects = projectRepository.findByUser(user.getId());
+        List<Project> projects = projectRepository.findByUser(user);
         List<ProjectMeResponseDto> result = new ArrayList<>();
 
         for (Project project : projects) {
