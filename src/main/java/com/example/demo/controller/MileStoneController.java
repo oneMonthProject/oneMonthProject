@@ -1,12 +1,12 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.Common.ResponseDto;
-import com.example.demo.dto.Milestone.Request.MileStoneUpdateRequestDto;
-import com.example.demo.dto.Milestone.Request.MilestoneCreateRequestDto;
-import com.example.demo.dto.Milestone.Request.MilestoneUpdateContentRequestDto;
-import com.example.demo.dto.Milestone.Request.MilestoneUpdateDateRequestDto;
-import com.example.demo.dto.Milestone.Response.MilestoneCreateResponseDto;
-import com.example.demo.dto.Milestone.Response.MilestoneReadResponseDto;
+import com.example.demo.dto.common.ResponseDto;
+import com.example.demo.dto.milestone.Request.MileStoneUpdateRequestDto;
+import com.example.demo.dto.milestone.Request.MilestoneCreateRequestDto;
+import com.example.demo.dto.milestone.Request.MilestoneUpdateContentRequestDto;
+import com.example.demo.dto.milestone.Request.MilestoneUpdateDateRequestDto;
+import com.example.demo.dto.milestone.Response.MilestoneCreateResponseDto;
+import com.example.demo.dto.milestone.Response.MilestoneReadResponseDto;
 import com.example.demo.service.MilestoneService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

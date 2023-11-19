@@ -1,11 +1,11 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.Milestone.Request.MileStoneUpdateRequestDto;
-import com.example.demo.dto.Milestone.Request.MilestoneCreateRequestDto;
-import com.example.demo.dto.Milestone.Request.MilestoneUpdateContentRequestDto;
-import com.example.demo.dto.Milestone.Request.MilestoneUpdateDateRequestDto;
-import com.example.demo.dto.Milestone.Response.MilestoneCreateResponseDto;
-import com.example.demo.dto.Milestone.Response.MilestoneReadResponseDto;
+import com.example.demo.dto.milestone.Request.MileStoneUpdateRequestDto;
+import com.example.demo.dto.milestone.Request.MilestoneCreateRequestDto;
+import com.example.demo.dto.milestone.Request.MilestoneUpdateContentRequestDto;
+import com.example.demo.dto.milestone.Request.MilestoneUpdateDateRequestDto;
+import com.example.demo.dto.milestone.Response.MilestoneCreateResponseDto;
+import com.example.demo.dto.milestone.Response.MilestoneReadResponseDto;
 import com.example.demo.global.exception.customexception.MilestoneCustomException;
 import com.example.demo.global.exception.customexception.ProjectCustomException;
 import com.example.demo.model.Milestone;

@@ -1,4 +1,4 @@
-package com.example.demo.dto.Work.Response;
+package com.example.demo.dto.work.Response;
 
 import com.example.demo.dto.User.Response.UserProjectDetailResponseDto;
 import com.example.demo.model.*;

@@ -1,12 +1,10 @@
 package com.example.demo.dto.ProjectMember.Response;
 
 import com.example.demo.constant.ProjectMemberStatus;
-import com.example.demo.dto.Position.Response.PositionResponseDto;
-import com.example.demo.dto.ProjectMemberAuth.Response.ProjectMemberAuthResponseDto;
+import com.example.demo.dto.position.Response.PositionResponseDto;
+import com.example.demo.dto.projectmemberauth.Response.ProjectMemberAuthResponseDto;
 import com.example.demo.dto.User.Response.UserProjectDetailResponseDto;
-import com.example.demo.model.Project;
 import com.example.demo.model.ProjectMember;
-import com.example.demo.model.User;
 import lombok.Builder;
 import lombok.Getter;
 

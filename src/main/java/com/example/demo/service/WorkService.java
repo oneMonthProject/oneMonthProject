@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.Work.Request.*;
-import com.example.demo.dto.Work.Response.WorkReadResponseDto;
+import com.example.demo.dto.work.Request.*;
+import com.example.demo.dto.work.Response.WorkReadResponseDto;
 import com.example.demo.global.exception.customexception.*;
 import com.example.demo.model.*;
 import com.example.demo.repository.*;

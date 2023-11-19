@@ -1,6 +1,6 @@
 package com.example.demo.dto.User.Response;
 
-import com.example.demo.dto.TrustGrade.TrustGradeDto;
+import com.example.demo.dto.trustgrade.TrustGradeDto;
 import com.example.demo.model.User;
 import lombok.Builder;
 import lombok.Getter;

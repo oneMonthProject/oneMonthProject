@@ -1,6 +1,6 @@
-package com.example.demo.dto.Project.Response;
+package com.example.demo.dto.project.Response;
 
-import com.example.demo.dto.TrustGrade.TrustGradeDto;
+import com.example.demo.dto.trustgrade.TrustGradeDto;
 import com.example.demo.model.Project;
 import java.time.LocalDateTime;
 import lombok.Builder;

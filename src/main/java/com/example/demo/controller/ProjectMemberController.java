@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.Common.ResponseDto;
+import com.example.demo.dto.common.ResponseDto;
 import com.example.demo.service.ProjectMemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

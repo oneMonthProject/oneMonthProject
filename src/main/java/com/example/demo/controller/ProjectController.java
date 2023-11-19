@@ -1,10 +1,10 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.Common.ResponseDto;
-import com.example.demo.dto.Project.Request.ProjectConfirmRequestDto;
-import com.example.demo.dto.Project.Request.ProjectParticipateRequestDto;
-import com.example.demo.dto.Project.Response.ProjectMeResponseDto;
-import com.example.demo.dto.Project.Response.ProjectSpecificDetailResponseDto;
+import com.example.demo.dto.common.ResponseDto;
+import com.example.demo.dto.project.Request.ProjectConfirmRequestDto;
+import com.example.demo.dto.project.Request.ProjectParticipateRequestDto;
+import com.example.demo.dto.project.Response.ProjectMeResponseDto;
+import com.example.demo.dto.project.Response.ProjectSpecificDetailResponseDto;
 import com.example.demo.service.ProjectService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

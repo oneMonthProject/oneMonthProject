@@ -1,7 +1,7 @@
-package com.example.demo.dto.BoardProject.Response;
+package com.example.demo.dto.boardproject.Response;
 
-import com.example.demo.dto.Board.Response.BoardUpdateResponseDto;
-import com.example.demo.dto.Project.Response.ProjectUpdateResponseDto;
+import com.example.demo.dto.board.Response.BoardUpdateResponseDto;
+import com.example.demo.dto.project.Response.ProjectUpdateResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

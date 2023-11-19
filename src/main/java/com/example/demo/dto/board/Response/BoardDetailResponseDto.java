@@ -1,10 +1,8 @@
-package com.example.demo.dto.Board.Response;
+package com.example.demo.dto.board.Response;
 
-import com.example.demo.dto.BoardPosition.Response.BoardPositionDetailResponseDto;
-import com.example.demo.dto.Project.Response.ProjectDetailResponseDto;
+import com.example.demo.dto.boardposition.Response.BoardPositionDetailResponseDto;
 import com.example.demo.dto.User.Response.UserBoardDetailResponseDto;
 import com.example.demo.model.Board;
-import com.example.demo.model.BoardPosition;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -1,8 +1,8 @@
-package com.example.demo.dto.Project.Response;
+package com.example.demo.dto.project.Response;
 
 import com.example.demo.constant.ProjectStatus;
 import com.example.demo.dto.ProjectMember.Response.MyProjectMemberResponseDto;
-import com.example.demo.dto.TrustGrade.TrustGradeDto;
+import com.example.demo.dto.trustgrade.TrustGradeDto;
 import com.example.demo.model.Project;
 import lombok.Builder;
 import lombok.Getter;

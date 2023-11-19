@@ -1,8 +1,6 @@
-package com.example.demo.dto.Milestone.Response;
+package com.example.demo.dto.milestone.Response;
 
-import com.example.demo.dto.Project.Response.ProjectCreateResponseDto;
 import com.example.demo.model.Milestone;
-import com.example.demo.model.Project;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -10,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-public class MilestoneCreateResponseDto {
+public class MilestoneReadResponseDto {
     private Long mileStoneId;
     private Long projectId;
     private String content;
@@ -21,8 +19,8 @@ public class MilestoneCreateResponseDto {
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
 
-    public static MilestoneCreateResponseDto of(Milestone milestone) {
-        return MilestoneCreateResponseDto.builder()
+    public static MilestoneReadResponseDto of(Milestone milestone) {
+        return MilestoneReadResponseDto.builder()
                 .mileStoneId(milestone.getId())
                 .projectId(milestone.getProject().getId())
                 .content(milestone.getContent())

@@ -1,4 +1,4 @@
-package com.example.demo.dto.Board.Request;
+package com.example.demo.dto.board.Request;
 
 import com.example.demo.model.Position;
 import com.example.demo.model.TechnologyStack;

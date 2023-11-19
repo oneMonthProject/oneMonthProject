@@ -1,4 +1,4 @@
-package com.example.demo.dto.Work.Request;
+package com.example.demo.dto.work.Request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,10 +7,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-public class WorkCreateRequestDto {
+public class WorkUpdateRequestDto {
     private String content;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private Long assignedUserId;
-
 }

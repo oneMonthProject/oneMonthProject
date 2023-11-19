@@ -1,4 +1,4 @@
-package com.example.demo.dto.Position.Response;
+package com.example.demo.dto.position.Response;
 
 import com.example.demo.model.Position;
 import lombok.Builder;

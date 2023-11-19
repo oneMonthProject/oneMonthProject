@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.Common.ResponseDto;
-import com.example.demo.dto.Work.Request.*;
-import com.example.demo.dto.Work.Response.WorkReadResponseDto;
+import com.example.demo.dto.common.ResponseDto;
+import com.example.demo.dto.work.Request.*;
+import com.example.demo.dto.work.Response.WorkReadResponseDto;
 import com.example.demo.service.WorkService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

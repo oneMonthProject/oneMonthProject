@@ -1,11 +1,10 @@
-package com.example.demo.dto.Project.Response;
+package com.example.demo.dto.project.Response;
 
 import com.example.demo.constant.ProjectStatus;
 import com.example.demo.dto.ProjectMember.Response.ProjectMemberDetailResponseDto;
-import com.example.demo.dto.TrustGrade.TrustGradeDto;
-import com.example.demo.dto.User.Response.UserProjectDetailResponseDto;
+import com.example.demo.dto.trustgrade.TrustGradeDto;
 import com.example.demo.dto.User.Response.UserProjectResponseDto;
-import com.example.demo.dto.Work.Response.WorkProjectDetailResponseDto;
+import com.example.demo.dto.work.Response.WorkProjectDetailResponseDto;
 import com.example.demo.model.Project;
 import lombok.Builder;
 import lombok.Getter;

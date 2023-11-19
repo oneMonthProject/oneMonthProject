@@ -1,4 +1,4 @@
-package com.example.demo.dto.Board.Response;
+package com.example.demo.dto.board.Response;
 
 import com.example.demo.model.Board;
 import java.time.LocalDateTime;

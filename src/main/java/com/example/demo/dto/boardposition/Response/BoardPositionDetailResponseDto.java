@@ -1,9 +1,7 @@
-package com.example.demo.dto.BoardPosition.Response;
+package com.example.demo.dto.boardposition.Response;
 
-import com.example.demo.dto.Position.Response.PositionResponseDto;
-import com.example.demo.model.Board;
+import com.example.demo.dto.position.Response.PositionResponseDto;
 import com.example.demo.model.BoardPosition;
-import com.example.demo.model.Position;
 import lombok.Builder;
 import lombok.Getter;
 

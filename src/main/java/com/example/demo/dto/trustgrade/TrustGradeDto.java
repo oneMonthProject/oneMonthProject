@@ -1,4 +1,4 @@
-package com.example.demo.dto.TrustGrade;
+package com.example.demo.dto.trustgrade;
 
 import com.example.demo.model.TrustGrade;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.example.demo.dto.ProjectMemberAuth.Response;
+package com.example.demo.dto.projectmemberauth.Response;
 
 import com.example.demo.model.ProjectMemberAuth;
 import lombok.Builder;

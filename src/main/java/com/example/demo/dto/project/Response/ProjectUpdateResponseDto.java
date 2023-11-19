@@ -1,4 +1,4 @@
-package com.example.demo.dto.Project.Response;
+package com.example.demo.dto.project.Response;
 
 import com.example.demo.constant.ProjectStatus;
 import com.example.demo.model.Project;

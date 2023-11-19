@@ -1,21 +1,18 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.Board.Request.BoardSearchRequestDto;
-import com.example.demo.dto.Board.Response.BoardDetailResponseDto;
-import com.example.demo.dto.Board.Response.BoardSearchResponseDto;
-import com.example.demo.dto.Board.Response.BoardTotalDetailResponseDto;
-import com.example.demo.dto.BoardProject.Request.BoardProjectCreateRequestDto;
-import com.example.demo.dto.BoardProject.Request.BoardProjectUpdateRequestDto;
-import com.example.demo.dto.BoardProject.Response.BoardProjectCreateResponseDto;
-import com.example.demo.dto.BoardProject.Response.BoardProjectUpdateResponseDto;
-import com.example.demo.dto.Common.ResponseDto;
-import com.example.demo.dto.Project.Response.ProjectDetailResponseDto;
+import com.example.demo.dto.board.Request.BoardSearchRequestDto;
+import com.example.demo.dto.board.Response.BoardSearchResponseDto;
+import com.example.demo.dto.board.Response.BoardTotalDetailResponseDto;
+import com.example.demo.dto.boardproject.Request.BoardProjectCreateRequestDto;
+import com.example.demo.dto.boardproject.Request.BoardProjectUpdateRequestDto;
+import com.example.demo.dto.boardproject.Response.BoardProjectCreateResponseDto;
+import com.example.demo.dto.boardproject.Response.BoardProjectUpdateResponseDto;
+import com.example.demo.dto.common.ResponseDto;
 import com.example.demo.service.BoardService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
