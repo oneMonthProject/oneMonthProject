@@ -3,13 +3,10 @@ package com.example.demo.controller;
 import com.example.demo.dto.Common.ResponseDto;
 import com.example.demo.dto.Project.Request.ProjectConfirmRequestDto;
 import com.example.demo.dto.Project.Request.ProjectParticipateRequestDto;
-import com.example.demo.dto.Project.Response.ProjectDetailResponseDto;
 import com.example.demo.dto.Project.Response.ProjectMeResponseDto;
 import com.example.demo.dto.Project.Response.ProjectSpecificDetailResponseDto;
-import com.example.demo.dto.ProjectMember.Request.ProjectWithDrawlConfirmRequestDto;
 import com.example.demo.service.ProjectService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +35,7 @@ public class ProjectController {
 
     @PostMapping("/{projectId}/participate")
     public ResponseEntity<ResponseDto<?>> participate(@PathVariable("projectId") Long projectId, @RequestBody ProjectParticipateRequestDto projectParticipateRequestDto){
-        projectService.participate(projectId, projectParticipateRequestDto);
+        projectService.sendParticipateAlert(projectId, projectParticipateRequestDto);
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
     }
 
@@ -48,21 +45,9 @@ public class ProjectController {
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
     }
 
-   @PostMapping("/{projectId}/member/{projectMemberId}/withdrawl")
-   public ResponseEntity<ResponseDto<?>> withdrawl(@PathVariable("projectId") Long projectId, @PathVariable("projectMemberId") Long projectMemberId){
-        projectService.withdrawlSendAlert(projectId, projectMemberId);
-        return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
-   }
-
-    @PostMapping("/{projectId}/member/{projectMemberId}/withdrawl/confirm")
-    public ResponseEntity<ResponseDto<?>> withdrawlConfirm(@PathVariable("projectId") Long projectId, @PathVariable("projectMemberId") Long projectMemberId){
-        projectService.withdrawlConfirm(projectId, projectMemberId);
-        return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
-    }
-
-    @PostMapping("/{projectId}/member/{projectMemberId}/withdrawl/force")
-    public ResponseEntity<ResponseDto<?>> withdrawlForce(@PathVariable("projectId") Long projectId, @PathVariable("projectMemberId") Long projectMemberId){
-        projectService.withdrawlForce(projectId, projectMemberId);
+    @PostMapping("/{projectId}/end")
+    public ResponseEntity<ResponseDto<?>> end(@PathVariable("projectId") Long projectId){
+        projectService.end(projectId);
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
     }
 }
