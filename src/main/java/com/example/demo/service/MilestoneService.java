@@ -88,4 +88,9 @@ public class MilestoneService {
 
         mileStoneRepository.save(milestone);
     }
+
+    public void delete(Long milestoneId){
+        Milestone milestone = mileStoneRepository.findById(milestoneId).orElseThrow(() -> MilestoneCustomException.NOT_FOUND_MILESTONE);
+        mileStoneRepository.delete(milestone);
+    }
 }
