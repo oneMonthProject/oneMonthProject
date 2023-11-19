@@ -51,6 +51,12 @@ public class MileStoneController {
     }
 
     @PatchMapping("/api/milestone/{milestoneId}")
+    public ResponseEntity<ResponseDto<?>> updateContent(@PathVariable("milestoneId") Long mileStoneId, MilestoneUpdateContentRequestDto milestoneUpdateContentRequestDto){
+        milestoneService.updateContent(mileStoneId, milestoneUpdateContentRequestDto);
+        return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
+    }
+
+    @PatchMapping("/api/milestone/{milestoneId}")
     public ResponseEntity<ResponseDto<?>> updateDate(@PathVariable("milestoneId") Long mileStoneId, MilestoneUpdateContentRequestDto milestoneUpdateContentRequestDto){
         milestoneService.updateContent(mileStoneId, milestoneUpdateContentRequestDto);
         return new ResponseEntity<>(new ResponseDto<>("success", null), HttpStatus.OK);
