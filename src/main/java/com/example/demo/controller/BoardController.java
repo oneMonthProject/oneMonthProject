@@ -43,9 +43,9 @@ private final BoardService boardService;
         return new ResponseEntity<>(new ResponseDto<>("success", result), HttpStatus.OK);
     }
 
-    @PatchMapping("")
-    public ResponseEntity<ResponseDto<?>> update(BoardProjectUpdateRequestDto requestDto) {
-        BoardProjectUpdateResponseDto result = boardService.update(requestDto);
+    @PatchMapping("/{boardId}")
+    public ResponseEntity<ResponseDto<?>> update(@PathVariable("boardId") Long boardId, BoardProjectUpdateRequestDto requestDto) {
+        BoardProjectUpdateResponseDto result = boardService.update(boardId, requestDto);
         return new ResponseEntity<>(new ResponseDto<>("success", result), HttpStatus.OK);
     }
 

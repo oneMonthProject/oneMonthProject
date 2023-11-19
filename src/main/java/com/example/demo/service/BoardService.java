@@ -193,7 +193,7 @@ public class BoardService {
      * @param dto
      * @return
      */
-    public BoardProjectUpdateResponseDto update(BoardProjectUpdateRequestDto dto) {
+    public BoardProjectUpdateResponseDto update(Long boardId, BoardProjectUpdateRequestDto dto) {
         Project project = projectRepository.findById(dto.getProject().getProjectId()).get();
         User tempUser = userRepository.findById(1L).get(); // 나중에 Security로 고쳐야 함.
 
@@ -214,7 +214,7 @@ public class BoardService {
         Project savedProject = projectRepository.save(project);
 
         // board 생성
-        Board board = boardRepository.findById(dto.getBoard().getBoardId()).get();
+        Board board = boardRepository.findById(boardId).orElseThrow(() -> BoardCustomException.NOT_FOUND_BOARD);
 
         board = Board.builder()
                         .title(dto.getBoard().getTitle())
