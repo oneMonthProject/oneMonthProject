@@ -50,4 +50,7 @@ public class TrustScoreHistory {
     @CreatedDate
     @Column(name = "create_date", updatable = false)
     LocalDateTime createDate;
+
+    @Column(name = "memo")
+    String memo;
 }
