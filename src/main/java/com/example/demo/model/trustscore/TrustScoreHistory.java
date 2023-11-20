@@ -1,5 +1,9 @@
-package com.example.demo.model;
+package com.example.demo.model.trustscore;
 
+import com.example.demo.model.Milestone;
+import com.example.demo.model.Project;
+import com.example.demo.model.User;
+import com.example.demo.model.Work;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

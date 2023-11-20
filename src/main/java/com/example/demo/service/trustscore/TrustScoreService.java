@@ -1,0 +1,4 @@
+package com.example.demo.service.trustscore;
+
+public interface TrustScoreService {
+}

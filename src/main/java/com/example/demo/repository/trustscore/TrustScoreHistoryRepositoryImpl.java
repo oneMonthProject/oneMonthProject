@@ -1,4 +1,4 @@
-package com.example.demo.repository;
+package com.example.demo.repository.trustscore;
 
 public class TrustScoreHistoryRepositoryImpl implements TrustScoreRepositoryCustom {
 }

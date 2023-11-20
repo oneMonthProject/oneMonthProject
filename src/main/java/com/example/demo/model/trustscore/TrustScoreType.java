@@ -1,12 +1,13 @@
-package com.example.demo.model;
+package com.example.demo.model.trustscore;
 
 import com.example.demo.constant.ScoreTypeDistinguishCode;
+import com.example.demo.model.BaseTimeEntity;
+import com.example.demo.model.TrustGrade;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "trust_score_type")
