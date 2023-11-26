@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @NoArgsConstructor
 public class TrustScoreUpdateRequestDto {
+    //
     @NotNull(message = "사용자값은 필수입니다.")
     private Long userId;
     private Long projectId;
