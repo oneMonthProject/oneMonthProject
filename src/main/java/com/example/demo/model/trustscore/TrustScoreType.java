@@ -1,39 +1,49 @@
 package com.example.demo.model.trustscore;
 
-import com.example.demo.constant.ScoreTypeDistinguishCode;
 import com.example.demo.model.BaseTimeEntity;
-import com.example.demo.model.TrustGrade;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serial;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "trust_score_type")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class TrustScoreType extends BaseTimeEntity {
+public class TrustScoreType extends BaseTimeEntity implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 7060316471817972985L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "trust_score_type_id")
-    Long id;
-
-    @Column(name = "name")
-    String name;
-
-    @Column(name = "score")
-    Long score;
-
-    @Column(name = "distinguish_code")
-    @Enumerated(EnumType.STRING)
-    ScoreTypeDistinguishCode distinguishCode;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trust_grade_id")
-    TrustGrade trustGrade;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trust_point_type_parent_id")
-    TrustScoreType trustPointTypeParent;
+    private Long id;
+    /**
+     * 신뢰점수타입부 자동생성 식별자
+     */
+    @Column
+    private Long upTrustScoreTypeId;
+    /**
+     * 신뢰점수타입명
+     */
+    @Column
+    private String trustScoreTypeName;
+    /**
+     * 신뢰등급명
+     */
+    @Column
+    private String trustGradeName;
+    /**
+     * 유저자동생성식별자
+     */
+    @Column
+    private int score;
+    /**
+     * 유저자동생성식별자
+     */
+    @Column
+    private String gubunCode;
 }
