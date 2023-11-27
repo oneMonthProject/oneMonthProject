@@ -1,11 +1,16 @@
 package com.example.demo.service.project;
 
 import com.example.demo.constant.AlertType;
+import com.example.demo.dto.position.response.PositionResponseDto;
+import com.example.demo.dto.projectmember.response.ProjectMemberReadCrewDetailResponseDto;
+import com.example.demo.dto.trust_grade.response.TrustGradeResponseDto;
+import com.example.demo.dto.user.response.UserCrewDetailResponseDto;
 import com.example.demo.global.exception.customexception.ProjectMemberCustomException;
 import com.example.demo.model.alert.Alert;
 import com.example.demo.model.project.ProjectMember;
 import com.example.demo.repository.alert.AlertRepository;
 import com.example.demo.repository.project.ProjectMemberRepository;
+import com.example.demo.repository.project.ProjectRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +19,7 @@ import org.springframework.stereotype.Service;
 public class ProjectMemberService {
     private final ProjectMemberRepository projectMemberRepository;
     private final AlertRepository alertRepository;
+    private final ProjectRepository projectRepository;
 
     /**
      * 프로젝트 멤버 탈퇴 알림 보내기
@@ -63,5 +69,26 @@ public class ProjectMemberService {
                         .findById(projectMemberId)
                         .orElseThrow(() -> ProjectMemberCustomException.NOT_FOUND_PROJECT_MEMBER);
         projectMemberRepository.delete(projectMember);
+    }
+
+    /**
+     * 크루정보 상세 페이지
+     * 유저 정보들, 유저 기술들, 프로젝트 개수, 신뢰점수 이력들
+     * @param projectMemberId
+     */
+    public ProjectMemberReadCrewDetailResponseDto getCrewDetail(Long projectMemberId){
+        ProjectMember projectMember = projectMemberRepository.findById(projectMemberId).orElseThrow(() -> ProjectMemberCustomException.NOT_FOUND_PROJECT_MEMBER);
+
+        int projectCount = projectRepository.countProjectByProjectMembers(projectMember);
+        TrustGradeResponseDto trustGradeResponseDto = TrustGradeResponseDto.of(projectMember.getProject().getTrustGrade());
+        PositionResponseDto positionResponseDto = PositionResponseDto.of(projectMember.getPosition());
+        UserCrewDetailResponseDto userCrewDetailResponseDto = UserCrewDetailResponseDto.of(projectMember.getUser(),positionResponseDto, trustGradeResponseDto);
+
+        return ProjectMemberReadCrewDetailResponseDto.of(
+                projectMember,
+                projectCount,
+                userCrewDetailResponseDto,
+                positionResponseDto
+        );
     }
 }
