@@ -1,7 +1,7 @@
 package com.example.demo.controller.project;
 
 import com.example.demo.dto.common.ResponseDto;
-import com.example.demo.dto.projectmember.response.ProjectMemberReadCrewDetailResponseDto;
+import com.example.demo.service.project.ProjectMemberFacade;
 import com.example.demo.service.project.ProjectMemberService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.*;
 public class ProjectMemberController {
 
     private final ProjectMemberService projectMemberService;
+    private final ProjectMemberFacade projectMemberFacade;
+
 
     @PostMapping("/{projectMemberId}/withdrawl")
     public ResponseEntity<ResponseDto<?>> withdrawl(@PathVariable("projectMemberId") Long projectMemberId) {
-        projectMemberService.sendWithdrawlAlert(projectMemberId);
+        projectMemberFacade.sendWithdrawlAlert(projectMemberId);
         return new ResponseEntity<>(ResponseDto.success("success"), HttpStatus.OK);
     }
 
