@@ -31,10 +31,10 @@ public class JsonWebTokenProvider {
     private String secretKey;
 
     @Value("${jwt.access.token.expiration.millis}")
-    private long ACCESS_TOKEN_EXPIRE_MILLIS;
+    private long accessTokenExpirationMillis;
 
     @Value("${jwt.refresh.token.expiration.millis}")
-    private long REFRESH_TOKEN_EXPIRE_MILLIS;
+    private long refreshTokenExpirationMillis;
 
     private Key key;
 
@@ -60,7 +60,7 @@ public class JsonWebTokenProvider {
     public JsonWebTokenDto generateToken(UserDetails userDetails) {
 
         // Access Token 생성
-        Date accessTokenExpiresIn = getTokenExpiration(ACCESS_TOKEN_EXPIRE_MILLIS);
+        Date accessTokenExpiresIn = getTokenExpiration(accessTokenExpirationMillis);
 
         Claims claims = Jwts.claims().setSubject(userDetails.getUsername());
         claims.put("role", userDetails.getAuthorities());
@@ -73,7 +73,7 @@ public class JsonWebTokenProvider {
                 .compact();
 
         // Refresh Token 생성
-        Date refreshTokenExpiresIn = getTokenExpiration(REFRESH_TOKEN_EXPIRE_MILLIS);
+        Date refreshTokenExpiresIn = getTokenExpiration(refreshTokenExpirationMillis);
 
         String refreshToken = Jwts.builder()
                 .setIssuedAt(Calendar.getInstance().getTime())
