@@ -26,6 +26,7 @@ public class SecurityConfig {
 
     private final JsonWebTokenProvider jsonWebTokenProvider;
     private final RefreshTokenRedisService refreshTokenRedisService;
+    private final AuthenticationConfiguration authenticationConfiguration;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -33,8 +34,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManagerBean() throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
@@ -56,16 +56,16 @@ public class SecurityConfig {
                 .disable()
                 .httpBasic()
                 .disable()
-                .apply(new JsonWebTokenAuthenticationFilterConfigurer())
+                .apply(new UserAuthenticationFilterConfigurer())
                 .and()
                 .build();
     }
 
     // 로그인 요청을 담당하는 필터를 관리하는 클래스
-    public class JsonWebTokenAuthenticationFilterConfigurer extends AbstractHttpConfigurer<JsonWebTokenAuthenticationFilterConfigurer, HttpSecurity> {
+    public class UserAuthenticationFilterConfigurer extends AbstractHttpConfigurer<UserAuthenticationFilterConfigurer, HttpSecurity> {
         @Override
         public void configure(HttpSecurity http) throws Exception {
-            AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
+            AuthenticationManager authenticationManager = authenticationManagerBean();
             UserAuthenticationFilter userAuthenticationFilter = new UserAuthenticationFilter(authenticationManager, jsonWebTokenProvider, refreshTokenRedisService);
 
             // 해당 필터가 동작할 URL 설정
