@@ -4,6 +4,8 @@ import com.example.demo.constant.Role;
 import com.example.demo.global.common.BaseTimeEntity;
 import com.example.demo.model.position.Position;
 import com.example.demo.model.trust_grade.TrustGrade;
+
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import lombok.*;
@@ -33,8 +35,8 @@ public class User extends BaseTimeEntity {
     @JoinColumn(name = "position_id")
     private Position position;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<UserTechnologyStack> techStacks;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<UserTechnologyStack> techStacks = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -54,7 +56,6 @@ public class User extends BaseTimeEntity {
         this.profileImgSrc = profileImgSrc;
         this.intro = intro;
         this.position = position;
-        this.techStacks = techStacks;
         this.role = role;
     }
 
