@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
  */
 public class DateTimeConverter {
 
-    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     // LocalDateTime -> String 변환
     public static String toStringConvert(LocalDateTime dateTime) {
