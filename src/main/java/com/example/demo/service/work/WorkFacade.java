@@ -1,7 +1,9 @@
 package com.example.demo.service.work;
 
 import com.example.demo.dto.work.request.*;
+import com.example.demo.dto.work.response.WorkPaginationResponseDto;
 import com.example.demo.dto.work.response.WorkReadResponseDto;
+import com.example.demo.global.exception.customexception.PageNationCustomException;
 import com.example.demo.model.milestone.Milestone;
 import com.example.demo.model.project.Project;
 import com.example.demo.model.project.ProjectMember;
@@ -14,6 +16,8 @@ import com.example.demo.service.user.UserService;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,10 +58,21 @@ public class WorkFacade {
     }
 
     @Transactional(readOnly = true)
-    public List<WorkReadResponseDto> getAllByMilestone(Long projectId, Long milestoneId) {
+    public WorkPaginationResponseDto getAllByMilestone(Long projectId, Long milestoneId, int pageIndex, int itemCount) {
         Project project = projectService.findById(projectId);
-
         Milestone milestone = milestoneService.findById(milestoneId);
+
+        if(pageIndex < 0) {
+            throw PageNationCustomException.INVALID_PAGE_NUMBER;
+        }
+
+        if(itemCount < 1 || itemCount > 8) {
+            throw PageNationCustomException.INVALID_PAGE_ITEM_COUNT;
+        }
+
+        WorkPaginationResponseDto workPaginationResponse = workService
+                .findWorksByProjectAndMilestone(projectId, milestoneId, PageRequest.of(pageIndex, itemCount));
+        /*
         List<Work> works = workService.findWorksByProjectAndMilestone(project, milestone);
 
         List<WorkReadResponseDto> workReadResponseDtos = new ArrayList<>();
@@ -65,8 +80,9 @@ public class WorkFacade {
             WorkReadResponseDto workReadResponseDto = WorkReadResponseDto.of(work);
             workReadResponseDtos.add(workReadResponseDto);
         }
+         */
 
-        return workReadResponseDtos;
+        return workPaginationResponse;
     }
 
     /**
