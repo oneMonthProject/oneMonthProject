@@ -2,7 +2,7 @@ name: CICD
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "develop" ]
 
 permissions:
   contents: read
@@ -40,6 +40,5 @@ jobs:
         username: ubuntu
         key: ${{ secrets.PRIVATE_KEY }}
         script: |
-          docker pull ${{ DOCKER_USERNAME }}/pm-be.latest
           docker-compose -f ./docker-compose.yml down
           docker-compose -f ./docker-compose.yml up -d 
