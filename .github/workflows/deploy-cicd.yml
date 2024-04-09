@@ -46,5 +46,7 @@ jobs:
         username: ubuntu
         key: ${{ secrets.PRIVATE_KEY }}
         script: |
-          docker-compose -f ./docker-compose.yml down
-          docker-compose -f ./docker-compose.yml up -d 
+          docker rm -f $(docker ps -qa)
+          docker pull ${{ secrets.DOCKER_USERNAME }}/pm-be:latest
+          docker-compose up -d
+          docker image prune -f
